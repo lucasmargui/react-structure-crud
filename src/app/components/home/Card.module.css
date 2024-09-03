@@ -1,0 +1,49 @@
+/* components/Card.module.css */
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bgImage {
+    position: relative;
+  }
+  
+  .hoverOverlay {
+    overflow: hidden;
+  }
+  
+  .imgFluid { /* Certifique-se de que esta classe está sendo aplicada */
+    width: 300px; /* Define a largura da imagem */
+    height: 200px; /* Define a altura da imagem */
+    object-fit: cover; /* Ajusta a imagem para cobrir o contêiner */
+  }
+  
+  .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  
+  .cardBody {
+    padding: 16px;
+  }
+  
+  .cardTitle {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .cardText {
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  

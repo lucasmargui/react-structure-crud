@@ -1,0 +1,8 @@
+/* components/CardRow.module.css */
+
+.cardRow {
+  display: flex;
+  justify-content: center; /* Alinha os cards no centro horizontalmente */
+  gap: 16px; /* Espaçamento entre os cards */
+  flex-wrap: wrap; /* Permite que os cards quebrem linha em telas menores */
+}

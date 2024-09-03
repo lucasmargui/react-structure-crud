@@ -1,0 +1,65 @@
+/* components/Hero.module.css */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Define a altura como 100% da viewport */
+    color: white;
+    text-align: center;
+    background-color: #333; /* Pode ser substituído por uma imagem de fundo */
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Alinha itens horizontalmente no centro */
+    height: 100%;
+    width: 100%; /* Certifica-se de que o contêiner ocupe toda a largura disponível */
+  }
+
+.title {
+    font-size: 3rem; /* Aumentado para maior destaque */
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    font-size: 1.5rem; /* Aumentado para maior destaque */
+    margin-bottom: 2rem;
+}
+
+.cta {
+    background-color: transparent; /* Fundo transparente */
+    border: 2px solid white; /* Borda branca de 2px */
+    color: white; /* Cor do texto branca */
+    padding: 10px 20px; /* Espaçamento interno do botão */
+    font-size: 16px; /* Tamanho da fonte */
+    cursor: pointer; /* Cursor em forma de mão ao passar sobre o botão */
+    transition: background-color 0.3s, border-color 0.3s; /* Transições suaves para mudanças */
+  }
+  
+  .cta:hover {
+    background-color: white; /* Fundo branco ao passar o mouse */
+    color: black; /* Cor do texto preta ao passar o mouse */
+  }
+
+.imageWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    filter: brightness(50%) blur(3px); /* Ajuste brilho e desfoque se necessário */
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5); /* Sombra interna */
+
+}
+
+.imageWrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz com que a imagem cubra toda a área */
+}

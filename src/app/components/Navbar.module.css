@@ -1,0 +1,41 @@
+/* components/Navbar.module.css */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Logo e links alinhados aos extremos */
+    align-items: center; /* Alinha verticalmente o conteúdo */
+    background-color: #5c4033;
+    padding: 10px 20px; /* Ajusta o padding conforme necessário */
+  }
+  
+
+  
+  .logoText {
+    color: white;
+    font-size: 24px; /* Ajuste o tamanho da fonte conforme necessário */
+    font-weight: bold; /* Torna o texto mais destacado */
+    text-decoration: none; /* Remove o sublinhado do link */
+  }
+  
+  .navList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px; /* Espaçamento entre os links */
+    margin-left: auto; /* Força o alinhamento dos links à esquerda */
+  }
+  
+  .navItem {
+    margin: 0;
+  }
+  
+  .navItem a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+  }
+  
+  .navItem a:hover {
+    background-color: #575757;
+    border-radius: 4px;
+  }
