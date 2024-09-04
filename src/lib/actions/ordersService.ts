@@ -1,25 +1,25 @@
-// // services/materialService.ts
+// // services/orderService.ts
 
 'use server';
 
- import { Material } from '../../models/Material';
+ import { Order, OrderWithMaterial } from '../../models/Order';
  
  import { redirect } from 'next/navigation';
 
  import { isRedirectError } from "next/dist/client/components/redirect";
 
 const API_URL = process.env.API_URL ?? '';
-const MODULE = 'materials';
+const MODULE = 'orders'; 
 
-export const fetchMaterials = async () => {
+export const fetchOrders = async () => {
 
   const response = await fetch(`${API_URL}/${MODULE}`);
-  const result: Material[] = await response.json();
+  const result: OrderWithMaterial[] = await response.json();
 
   return result;
 };
 
-export const fetchMaterialById = async (id: String) => {
+export const fetchOrderById = async (id: String) => {
 
   const response = await fetch(`${API_URL}/${MODULE}/${id}`);
   const result = await response.json();
@@ -27,14 +27,14 @@ export const fetchMaterialById = async (id: String) => {
   return result;
 };
 
-export const createMaterial = async (material: Omit<Material, 'id' | 'created_at' | 'updated_at'>) => {
+export const createOrder = async (order: Omit<Order, 'id' | 'created_at' | 'updated_at'>) => {
   try {
       await fetch(`${API_URL}/${MODULE}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(material),
+        body: JSON.stringify(order),
       });
     
   } catch (error) {
@@ -44,19 +44,19 @@ export const createMaterial = async (material: Omit<Material, 'id' | 'created_at
     }
     
   } finally {
-    redirect('/materials');
+    redirect('/orders');
   }
 };
 
-export const updateMaterial = async (material: Material) => {
+export const updateOrder = async (order: Order) => {
   try {
 
-   await fetch(`${API_URL}/${MODULE}/${material.id}`, {
+   await fetch(`${API_URL}/${MODULE}/${order.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(material),
+      body: JSON.stringify(order),
     });
   
   } catch (error) {
@@ -66,12 +66,12 @@ export const updateMaterial = async (material: Material) => {
     }
     
   } finally {
-    redirect('/materials');
+    redirect('/orders');
   }
 
 };
 
-export const deleteMaterial = async (id: number | undefined) => {
+export const deleteOrder = async (id: number | undefined) => {
   
   try {
 

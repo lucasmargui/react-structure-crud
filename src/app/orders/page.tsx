@@ -1,10 +1,10 @@
 import Button from '@/app/components/Button';
-import Title from '@/app/components/materials/Title';
-import Table from '@/app/components/materials/Table';
+import Title from '@/app/components/orders/Title';
+import Table from '@/app/components/orders/Table';
 
 import styles from './page.module.css';
 
-export default async function MaterialsPage({
+export default async function OrdersPage({
   searchParams,
 }: {
   searchParams?: {
@@ -20,7 +20,7 @@ export default async function MaterialsPage({
   return (
     <div className={styles.main}>
       <Title />
-      <Button text='Create Material' href={`/materials/create` } className='btn btn-success me-2'></Button>
+      <Button text='Create Order' href={`/orders/create` } className='btn btn-success me-2'></Button>
       <Table query={query} currentPage={currentPage} />
     </div>
   );
