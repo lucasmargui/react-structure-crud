@@ -25,8 +25,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
   const [order, setOrder] = useState<Order | null>(null);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [isNew, setIsNew] = useState<boolean>(!id);
-
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const formatDateForInput = (isoDate : string | undefined) => {
 
@@ -40,41 +39,39 @@ const Form: React.FC<FormProps> = ({ id }) => {
 
   } 
 
+
+  const fetchOrInitOrder= async () => { 
+
+    const response = await fetchMaterials();
+    if (response) setMaterials(response);
+
+    if (id) {
+      const orderSearchById = await fetchOrderById(id);
+      if (orderSearchById) setOrder(orderSearchById);
+   
+    } else {
+        setOrder({
+          material_id: 0,
+          quantity: 0,
+          order_date: '',
+        }
+      );
+    }
+    setLoading(false)
+  }
+
   useEffect(() => {
 
-    
+    fetchOrInitOrder();
 
-    const populateSelect = async () => {
+  }, []);
 
-      const response = await fetchMaterials();
-      if (response) setMaterials(response);
-    }
 
-    populateSelect();
-
-    if (id && !isNew) {
-      const getOrder = async () => {
-        const orderSearchById = await fetchOrderById(id);
-    
-       
-       
-        if (orderSearchById) setOrder(orderSearchById);
-        setLoading(!loading)
-      };
-      getOrder();
-    } else {
-      setOrder({
-        material_id: 0,
-        quantity: 0,
-        order_date: '',
-      }
-    
-    );
-    setLoading(!loading)
-    }
-  }, [id, isNew]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
+    validateForm()
+    
     if (order) {
       setOrder({
         ...order,
@@ -93,24 +90,50 @@ const Form: React.FC<FormProps> = ({ id }) => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    
     e.preventDefault();
+    
     if (order) {
-      if (isNew) {
+      if (!id) {
 
-        setLoading(!loading);
+        setLoading(true);
 
-        await createOrder(order);
+        if (validateForm()) {
+          
+          await createOrder(order);
+        }
+
+        setLoading(false);
+       
         
       } else {
 
-        setLoading(!loading);
+        setLoading(true);
 
-        await updateOrder(order);
-
+        if (validateForm()) {
+          await updateOrder(order);
+        }
+        
+        setLoading(false);
       }
 
     }
   };
+
+
+  
+const validateForm = () => {
+
+  let formErrors: { [key: string]: string } = {};
+  
+  if (!order?.quantity) formErrors.quantity = "Quantity is required";
+  if (!order?.material_id) formErrors.material_id = "Material is required";
+  if (!order?.order_date) formErrors.order_date = "Date is required";
+
+  setErrors(formErrors);
+  return Object.keys(formErrors).length === 0; // Returns true if no errors
+};
+
 
   return (
     <section className="h-100 bg-dark">
@@ -147,7 +170,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
                     </div>
                     <div className="col-xl-6">
                       <div className="card-body p-md-5 text-black">
-                        <h3 className="mb-5 text-uppercase">{isNew ? 'Add New Order' : 'Edit Order'}</h3>
+                        <h3 className="mb-5 text-uppercase">{!id ? 'Add New Order' : 'Edit Order'}</h3>
 
                         <div className="row">
                           <div className="col-md-6 mb-4">
@@ -167,6 +190,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
                                 </option>
                               ))}
                             </select>
+                            {errors.material_id && <div className="text-danger">{errors.material_id}</div>}
                           </div>
                           <div className="col-md-6 mb-4">
                             <label htmlFor="type" className="form-label">quantity</label>
@@ -180,6 +204,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
                               required
                               className="form-control form-control-lg"
                             />
+                            {errors.quantity && <div className="text-danger">{errors.quantity}</div>}
                           </div>
                         </div>
 
@@ -196,6 +221,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
                               required
                               className="form-control form-control-lg"
                             />
+                            {errors.order_date && <div className="text-danger">{errors.order_date}</div>}
                           </div>
                           
                         </div>

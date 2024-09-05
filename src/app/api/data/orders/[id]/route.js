@@ -17,28 +17,6 @@ export async function GET(req, { params }) {
 }
 
   
-// Função para atualizar um material existente
-export async function PUT(req) {
-    try {
- 
-      const { id, material_id, quantity, order_date, created_at } = await req.json();
-      const connection = await getDbConnection();
-      const [result] = await connection.query(
-        'UPDATE orders SET material_id = ?, quantity = ?, order_date = ?, created_at = ?, updated_at = NOW() WHERE id = ?',
-        [material_id, quantity, order_date, created_at, id]
-      );
-      await connection.end();
-      if (result.affectedRows === 0) {
-        return NextResponse.json({ error: 'Order not found' }, { status: 404 });
-      }
-      return NextResponse.json({ id, material_id, quantity, order_date, created_at });
-    } catch (error) {
-        console.log(error)
-      return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-    }
-  }
-  
-  
   // Função para deletar um material pelo ID
   export async function DELETE(req, { params }) {
     try {

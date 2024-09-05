@@ -51,7 +51,7 @@ export const createOrder = async (order: Omit<Order, 'id' | 'created_at' | 'upda
 export const updateOrder = async (order: Order) => {
   try {
 
-   await fetch(`${API_URL}/${MODULE}/${order.id}`, {
+   await fetch(`${API_URL}/${MODULE}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

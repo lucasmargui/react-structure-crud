@@ -51,7 +51,7 @@ export const createMaterial = async (material: Omit<Material, 'id' | 'created_at
 export const updateMaterial = async (material: Material) => {
   try {
 
-   await fetch(`${API_URL}/${MODULE}/${material.id}`, {
+   await fetch(`${API_URL}/${MODULE}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

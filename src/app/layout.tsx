@@ -5,6 +5,12 @@ import "./globals.css";
 import 'font-awesome/css/font-awesome.min.css';
 import Navbar from './components/Navbar';
 import Footer from "./components/Footer";
+// index.js ou App.js
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faBars  } from '@fortawesome/free-solid-svg-icons';
+
+// Adiciona os ícones à biblioteca
+library.add(faBars);
 
 
 const inter = Inter({ subsets: ["latin"] });

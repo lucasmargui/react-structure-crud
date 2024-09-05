@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-import styles from './Card.module.css'; // Importar o CSS para estilização
+// import styles from './Card.module.css'; // Importar o CSS para estilização
 
 
 interface CardProps {
@@ -15,23 +15,30 @@ interface CardProps {
 
   const Card: React.FC<CardProps> = ({ imageSrc, title, material, price, description, link = "#!" }) => {
     return (
-      <div className={styles.card}>
-        <div className={`${styles.bgImage} ${styles.hoverOverlay}`} data-mdb-ripple-init data-mdb-ripple-color="light">
-          <img src={imageSrc} className={styles.imgFluid} alt={title} />
-          <a href={link}>
-            <div className={styles.mask} style={{ backgroundColor: 'rgba(251, 251, 251, 0.15)' }}></div>
+
+    <div className="col-md-2"> 
+      <div className="card h-100">
+        <img
+          src={imageSrc}
+          className="card-img-top"
+       
+        />
+        <div className="card-body">
+          <h5 className="card-title">{title}</h5>
+          <p className="card-text">
+              <strong>Material:</strong> {material}<br />
+              <strong>Price:</strong> {price}<br />
+              <strong>Description:</strong> {description}
+          </p>
+          <a href="#!" className="btn btn-primary" data-mdb-ripple-init>
+            Buy
           </a>
         </div>
-        <div className={styles.cardBody}>
-          <h5 className={styles.cardTitle}>{title}</h5>
-          <p className={styles.cardText}>
-            <strong>Material:</strong> {material}<br />
-            <strong>Price:</strong> {price}<br />
-            <strong>Description:</strong> {description}
-          </p>
-          <a href={link} className="btn btn-primary" data-mdb-ripple-init>Buy Now</a>
-        </div>
       </div>
+    </div>
+
+
+
     );
   };
 
