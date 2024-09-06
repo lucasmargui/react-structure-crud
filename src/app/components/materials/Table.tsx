@@ -37,22 +37,22 @@ export default function Table() {
                     <table className="table table-striped table-bordered">
                         <thead className="table-dark">
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Description</th>
-                                <th>Thickness</th>
-                                <th>Width</th>
-                                <th>Height</th>
-                                <th>Color</th>
-                                <th>Manufacturer</th>
-                                <th>Price</th>
-                                <th>Actions</th>
+                            <th className={styles.thId}>ID</th>
+                            <th className={styles.thName}>Name</th>
+                            <th className={styles.thType}>Type</th>
+                            <th className={styles.thDescription}>Description</th>
+                            <th className={styles.thThickness}>Thickness</th>
+                            <th className={styles.thWidth}>Width</th>
+                            <th className={styles.thHeight}>Height</th>
+                            <th className={styles.thColor}>Color</th>
+                            <th className={styles.thManufacturer}>Manufacturer</th>
+                            <th className={styles.thPrice}>Price</th>
+                            <th className={styles.thActions}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading ? (
-                                Array.from({ length: 5 }).map((_, index) => (
+                                Array.from({ length: 7 }).map((_, index) => (
                                     <tr key={index}>
                                         <td className={styles.skeleton}></td>
                                         <td className={styles.skeleton}></td>
@@ -82,7 +82,6 @@ export default function Table() {
                                         <td>{material.price}</td>
                                         <td>
                                         <div className ="d-flex">
-                                            <Button text='View' href={`/materials/${material.id}` } className='btn btn-sm btn-primary me-2'></Button>
                                             <DeleteButton materialId={material.id}></DeleteButton>
                                             <Button text='Edit' href={`/materials/${material.id}/edit`} className='btn btn-sm btn-info me-2'></Button>
                                         </div>
