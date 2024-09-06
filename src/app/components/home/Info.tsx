@@ -30,7 +30,7 @@ const Info = () => {
         </div>
       </div> */}
 
-   <div className="card" >
+   <div className="card mt-3" >
       <div className="row g-0">
         <div className="col-md-6">
           <img

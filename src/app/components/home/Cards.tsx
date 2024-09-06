@@ -5,7 +5,7 @@ import Card from "./Card";
 
   const Cards = () => {
     return (
-      <section>
+      <section className="mt-3">
         <div className="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
         <Card 
           imageSrc="https://mdbootstrap.com/img/new/standard/nature/184.jpg"

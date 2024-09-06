@@ -4,24 +4,21 @@ import Table from '@/app/components/orders/Table';
 
 import styles from './page.module.css';
 
-export default async function OrdersPage({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
-}) {
-
-  const query = '';
-  const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = 10;
+export default async function OrdersPage() {
 
   return (
+
     <div className={styles.main}>
-      <Title />
-      <Button text='Create Order' href={`/orders/create` } className='btn btn-success me-2'></Button>
-      <Table query={query} currentPage={currentPage} />
+    
+    <div className="card mt-3">
+      <div className="card-body d-flex flex-column">
+        <Title />
+        <div className="d-flex justify-content-end mb-2">
+          <Button text='Create Order' href={`/orders/create`} className='btn btn-success'></Button>
+        </div>
+        <Table />
+      </div>
+    </div>
     </div>
   );
 };

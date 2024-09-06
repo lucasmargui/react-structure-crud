@@ -7,10 +7,13 @@ import Navbar from './components/Navbar';
 import Footer from "./components/Footer";
 // index.js ou App.js
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars  } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faUser  } from '@fortawesome/free-solid-svg-icons';
+import Script from 'next/script';
+
+import styles from './page.module.css';
 
 // Adiciona os ícones à biblioteca
-library.add(faBars);
+library.add([faBars,faUser]);
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -31,11 +34,14 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <Navbar />
-            <div>
-              {children}
-            </div>
+          <div className={styles.content}>
+            {children}
+          </div>
           <Footer />
-
+          <Script
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
+            strategy="beforeInteractive" // Ou use "lazyOnload" dependendo do comportamento desejado
+          />
         </body>
       </html>
     </>

@@ -1,41 +1,29 @@
-/* components/Navbar.module.css */
-.navbar {
-    display: flex;
-    justify-content: space-between; /* Logo e links alinhados aos extremos */
-    align-items: center; /* Alinha verticalmente o conteúdo */
-    background-color: #5c4033;
-    padding: 10px 20px; /* Ajusta o padding conforme necessário */
-  }
-  
+.navbarCustom {
+  background: linear-gradient(to right, #3e2723, #5d4037);
+}
 
-  
-  .logoText {
-    color: white;
-    font-size: 24px; /* Ajuste o tamanho da fonte conforme necessário */
-    font-weight: bold; /* Torna o texto mais destacado */
-    text-decoration: none; /* Remove o sublinhado do link */
-  }
-  
-  .navList {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 20px; /* Espaçamento entre os links */
-    margin-left: auto; /* Força o alinhamento dos links à esquerda */
-  }
-  
-  .navItem {
-    margin: 0;
-  }
-  
-  .navItem a {
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-  }
-  
-  .navItem a:hover {
-    background-color: #575757;
-    border-radius: 4px;
-  }
+.navbarTextWhite {
+  color: #ffffff; /* Branco */
+}
+
+.navbarTextWhite a {
+  color: #ffffff; /* Branco */
+}
+
+.navbarTextWhite a:hover {
+  color: #e0e0e0; /* Cor de destaque ao passar o mouse (opcional) */
+}
+
+.iconWhite {
+  color: #ffffff; /* Branco */
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f0f0f0; /* Cor do texto */
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Sombra do texto */
+}

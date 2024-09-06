@@ -14,13 +14,7 @@ import DeleteButton from './DeleteButton';
 
 import Button from '@/app/components/Button';
 
-export default function Table({
-  query,
-  currentPage,
-}: {
-  query: string;
-  currentPage: number;
-}) {
+export default function Table() {
 
   const [materials, setMaterial] = useState<Material[] | null>(null);
   const [loading, setLoading] = useState(true);
@@ -34,7 +28,7 @@ export default function Table({
     }
 
     fetchData();
-  }, [query, currentPage]);
+  }, []);
 
   return (
     <div className="mt-4">
