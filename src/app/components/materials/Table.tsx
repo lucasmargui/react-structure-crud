@@ -9,10 +9,83 @@ import { Material } from '@/models/Material';
 import styles from './Table.module.css';
 import DeleteButton from './DeleteButton';
 import Button from '@/app/components/Button';
+import DataTable from "react-data-table-component";
 
 export default function Table() {
-  const [materials, setMaterials] = useState<Material[] | null>(null);
+  const [materials, setMaterials] = useState<Material[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const columns = [
+    {
+      name: "ID",
+      selector: (row: Material) => row.id || 0,
+      sortable: true,
+    },
+    {
+      name: "Name",
+      selector: (row: Material) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Type",
+      selector: (row: Material) => row.type,
+      sortable: true,
+    },
+    {
+      name: "Description",
+      selector: (row: Material) => row.description,
+      sortable: false,
+    },
+    {
+      name: "Thickness",
+      selector: (row: Material) => row.thickness,
+      sortable: true,
+    },
+    {
+      name: "Width",
+      selector: (row: Material) => row.width,
+      sortable: true,
+    },
+    {
+      name: "Height",
+      selector: (row: Material) => row.height,
+      sortable: true,
+    },
+    {
+      name: "Color",
+      selector: (row: Material) => row.color,
+      sortable: true,
+    },
+    {
+      name: "Manufacturer",
+      selector: (row: Material) => row.manufacturer,
+      sortable: true,
+    },
+    {
+      name: "Manufacturer Code",
+      selector: (row: Material) => row.manufacturer_code,
+      sortable: true,
+    },
+    {
+      name: "Price",
+      selector: (row: Material) => row.price,
+      sortable: true,
+    },
+    {
+        name: "Price",
+        selector: (row: Material) => row.price,
+        sortable: true,
+    },
+    {
+     name: "Actions",
+      cell: (row: Material) => (
+        <div> 
+               <DeleteButton materialId={row.id}></DeleteButton>
+               <Button text='Edit' href={`/materials/${row.id}/edit`} className='btn btn-sm btn-info me-2'></Button>
+        </div>
+      ),
+    }
+  ];
 
   useEffect(() => {
     async function fetchData() {
@@ -41,61 +114,7 @@ export default function Table() {
             <LoadingSpinner />
           ) : (
             <div className="mt-4">
-              <div className="table-responsive">
-                <div className="bg-light rounded p-2 pt-md-0">
-                  <table className="table table-striped table-bordered">
-                    <thead className="table-dark">
-                      <tr>
-                        <th className={styles.thId}>ID</th>
-                        <th className={styles.thName}>Name</th>
-                        <th className={styles.thType}>Type</th>
-                        <th className={styles.thDescription}>Description</th>
-                        <th className={styles.thThickness}>Thickness</th>
-                        <th className={styles.thWidth}>Width</th>
-                        <th className={styles.thHeight}>Height</th>
-                        <th className={styles.thColor}>Color</th>
-                        <th className={styles.thManufacturer}>Manufacturer</th>
-                        <th className={styles.thPrice}>Price</th>
-                        <th className={styles.thActions}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {materials?.length ? (
-                        materials.map((material) => (
-                          <tr key={material.id}>
-                            <td>{material.id}</td>
-                            <td>{material.name}</td>
-                            <td>{material.type}</td>
-                            <td>{material.description}</td>
-                            <td>{material.thickness}</td>
-                            <td>{material.width}</td>
-                            <td>{material.height}</td>
-                            <td>{material.color}</td>
-                            <td>{material.manufacturer}</td>
-                            <td>{material.price}</td>
-                            <td>
-                              <div className="d-flex">
-                                <DeleteButton materialId={material.id} />
-                                <Button
-                                  text="Edit"
-                                  href={`/materials/${material.id}/edit`}
-                                  className="btn btn-sm btn-info me-2"
-                                />
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={11} className="text-center">
-                            No materials found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+             <DataTable columns={columns} data={materials} />
             </div>
           )}
         </div>

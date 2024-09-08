@@ -5,11 +5,7 @@ import { fetchOrders } from '@/lib/actions/ordersService';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import transitionstyles from '@/app/components/Transition.module.css';
-import {
-
-    OrderWithMaterial
-
-} from '@/models/Order';
+import { OrderWithMaterial} from '@/models/Order';
 
 import styles from './Table.module.css';
 import DeleteButton from './DeleteButton';
