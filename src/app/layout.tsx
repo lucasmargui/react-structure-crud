@@ -40,7 +40,7 @@ export default function RootLayout({
           <Footer />
           <Script
             src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
-            strategy="beforeInteractive" // Ou use "lazyOnload" dependendo do comportamento desejado
+            strategy="beforeInteractive" 
           />
         </body>
       </html>

@@ -1,19 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent  } from 'react';
 import { fetchMaterials } from '@/lib/actions/materialsService';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import transitionstyles from '@/app/components/Transition.module.css';
 import { Material } from '@/models/Material';
-import styles from './Table.module.css';
 import DeleteButton from './DeleteButton';
 import Button from '@/app/components/Button';
 import DataTable from "react-data-table-component";
 
 export default function Table() {
   const [materials, setMaterials] = useState<Material[]>([]);
+  const [filteredData, setFilteredData] = useState<Material[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState<string>("");
 
   const columns = [
     {
@@ -51,46 +52,64 @@ export default function Table() {
       selector: (row: Material) => row.height,
       sortable: true,
     },
+    // {
+    //   name: "Color",
+    //   selector: (row: Material) => row.color,
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Manufacturer",
+    //   selector: (row: Material) => row.manufacturer,
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Manufacturer Code",
+    //   selector: (row: Material) => row.manufacturer_code,
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Price",
+    //   selector: (row: Material) => row.price,
+    //   sortable: true,
+    // },
+    // {
+    //     name: "Price",
+    //     selector: (row: Material) => row.price,
+    //     sortable: true,
+    // },
     {
-      name: "Color",
-      selector: (row: Material) => row.color,
-      sortable: true,
-    },
-    {
-      name: "Manufacturer",
-      selector: (row: Material) => row.manufacturer,
-      sortable: true,
-    },
-    {
-      name: "Manufacturer Code",
-      selector: (row: Material) => row.manufacturer_code,
-      sortable: true,
-    },
-    {
-      name: "Price",
-      selector: (row: Material) => row.price,
-      sortable: true,
-    },
-    {
-        name: "Price",
-        selector: (row: Material) => row.price,
-        sortable: true,
-    },
-    {
-     name: "Actions",
+     name: "",
       cell: (row: Material) => (
-        <div> 
-               <DeleteButton materialId={row.id}></DeleteButton>
-               <Button text='Edit' href={`/materials/${row.id}/edit`} className='btn btn-sm btn-info me-2'></Button>
-        </div>
+       <Button text='Edit' href={`/materials/${row.id}/edit`} className='btn btn-sm btn-info me-2'></Button>               
       ),
+    },
+    {
+    name: "",
+        cell: (row: Material) => (
+        <DeleteButton materialId={row.id}></DeleteButton>              
+        ),
+        style: { width: '200px' },
     }
   ];
+
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value.toLowerCase();
+    setSearchText(searchValue);
+
+    const filtered = materials.filter((item) =>
+      Object.values(item).some((value) =>
+        value.toString().toLowerCase().includes(searchValue)
+      )
+    );
+
+    setFilteredData(filtered);
+  };
 
   useEffect(() => {
     async function fetchData() {
       const data = await fetchMaterials();
       setMaterials(data);
+      setFilteredData(data);
       setLoading(false);
     }
 
@@ -109,13 +128,31 @@ export default function Table() {
           exitActive: transitionstyles['fade-exit-active'],
         }}
       >
-        <div>
+        <div className="mt-4">
+            
           {loading ? (
+      
             <LoadingSpinner />
+    
+        
           ) : (
-            <div className="mt-4">
-             <DataTable columns={columns} data={materials} />
-            </div>
+    
+            <DataTable
+                title="Material Data"
+                columns={columns}
+                data={filteredData}
+                subHeader
+                subHeaderComponent={
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    className="form-control"
+                    value={searchText}
+                    onChange={handleSearch}
+                />
+                }
+            />
+          
           )}
         </div>
       </CSSTransition>

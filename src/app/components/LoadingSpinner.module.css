@@ -3,7 +3,6 @@
     justify-content: center;
     align-items: center;
     height: 100vh; /* Altura total da viewport */
-    width: 100vh; /* Altura total da viewport */
   }
 
   .spinner {

@@ -144,7 +144,7 @@ const validateForm = () => {
       <div>
         {loading ? 
 
-        <LoadingSpinner /> : 
+          <LoadingSpinner /> : 
         
           <div className="container py-5 h-100">
           <form onSubmit={handleSubmit}>

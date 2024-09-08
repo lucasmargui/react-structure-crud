@@ -1,27 +1,74 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { fetchOrders } from '@/lib/actions/ordersService';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import transitionstyles from '@/app/components/Transition.module.css';
 import { OrderWithMaterial} from '@/models/Order';
-
-import styles from './Table.module.css';
 import DeleteButton from './DeleteButton';
-
 import Button from '@/app/components/Button';
+import DataTable from "react-data-table-component";
 
 export default function Table() {
 
-  const [orders, setOrder] = useState<OrderWithMaterial[] | null>(null);
+  const [orders, setOrder] = useState<OrderWithMaterial[]>([]);
+  const [filteredData, setFilteredData] = useState<OrderWithMaterial[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState<string>("");
+
+
+  const columns = [
+    {
+      name: "ID",
+      selector: (row: OrderWithMaterial) => row.id || 0,
+      sortable: true,
+    },
+    {
+      name: "Name",
+      selector: (row: OrderWithMaterial) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Quantity",
+      selector: (row: OrderWithMaterial) => row.quantity,
+      sortable: true,
+    },
+    {
+        name: "",
+        cell: (row: OrderWithMaterial) => (
+        <Button text='Edit' href={`/orders/${row.id}/edit`} className='btn btn-sm btn-info me-2'></Button>               
+        ),
+    },
+
+    {
+        name: "",
+        cell: (row: OrderWithMaterial) => (
+        <DeleteButton orderId={row.id}></DeleteButton>              
+        ),
+        style: { width: '200px' },  // Definindo a largura da coluna
+    }
+  ];
+
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value.toLowerCase();
+    setSearchText(searchValue);
+
+    const filtered = orders.filter((item) =>
+      Object.values(item).some((value) =>
+        value.toString().toLowerCase().includes(searchValue)
+      )
+    );
+
+    setFilteredData(filtered);
+  };
 
   useEffect(() => {
     async function fetchData(){
 
         const data = await fetchOrders();
         setOrder(data);
+        setFilteredData(data);
         setLoading(false);
     }
 
@@ -31,69 +78,41 @@ export default function Table() {
   return (
 
     <TransitionGroup>
-        <CSSTransition
-          key={loading ? 'loading' : 'component'}
-          timeout={300}
-          classNames={{
-            enter: transitionstyles['fade-enter'],
-            enterActive: transitionstyles['fade-enter-active'],
-            exit: transitionstyles['fade-exit'],
-            exitActive: transitionstyles['fade-exit-active'],
-          }}
-        >
-          <div>
-            {loading ? (
-            <LoadingSpinner />
-            ) : (
-            <div className="mt-4">
-                <div className="table-responsive">
-                    <div className="bg-light rounded p-2 pt-md-0">
-                        <table className="table table-striped table-bordered">
-                            <thead className="table-dark">
-                                <tr>
-                                    <th className={styles.thId}>ID</th>
-                                    <th className={styles.thMaterialId}>Material ID</th>
-                                    <th className={styles.thQuantity}>Quantity</th>
-                                    <th className={styles.thOrderDate}>Order Date</th>
-                                    <th className={styles.thActions}>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {loading ? (
-                                    Array.from({ length: 5 }).map((_, index) => (
-                                        <tr key={index}>
-                                            <td className={styles.skeleton}></td>
-                                            <td className={styles.skeleton}></td>
-                                            <td className={styles.skeleton}></td>
-                                            <td className={styles.skeleton}></td>
-                                            <td className={styles.skeleton}></td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    orders?.map((order) => (
-                                        <tr key={order.id}>
-                                            <td>{order.id}</td>
-                                            <td>{order.name}</td>
-                                            <td>{order.quantity}</td>
-                                            <td>{order.order_date}</td>
-                                            <td>
-                                            <div className ="d-flex">
-                                                <DeleteButton orderId={order.id}></DeleteButton>
-                                                <Button text='Edit' href={`/orders/${order.id}/edit`} className='btn btn-sm btn-info me-2'></Button>
-                                            </div>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            )}
+    <CSSTransition
+      key={loading ? 'loading' : 'component'}
+      timeout={300}
+      classNames={{
+        enter: transitionstyles['fade-enter'],
+        enterActive: transitionstyles['fade-enter-active'],
+        exit: transitionstyles['fade-exit'],
+        exitActive: transitionstyles['fade-exit-active'],
+      }}
+    >
+      <div>
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="mt-4">
+                <DataTable
+                  title="Order Data"
+                  columns={columns}
+                  data={filteredData}
+                  subHeader
+                  subHeaderComponent={
+                  <input
+                      type="text"
+                      placeholder="Search..."
+                      className="form-control"
+                      value={searchText}
+                      onChange={handleSearch}
+                  />
+                  }
+              />
           </div>
-        </CSSTransition>
-    </TransitionGroup>
+        )}
+      </div>
+    </CSSTransition>
+  </TransitionGroup>
 
 
     
