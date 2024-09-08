@@ -1,252 +1,215 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from 'react';
 import { Order } from '@/models/Order';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
-
-
+import Notification from '@/app/components/Notification';
 import { fetchOrderById, createOrder, updateOrder } from '@/lib/actions/ordersService';
-
-import { fetchMaterials} from '@/lib/actions/materialsService';
-
+import { fetchMaterials } from '@/lib/actions/materialsService';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-
-
-import styles from './Form.module.css';
+import transitionstyles from '@/app/components/Transition.module.css';
 import { Material } from '@/models/Material';
 
-interface FormProps {
-    id?: String; 
-  }
+type NotificationType = 'info' | 'success' | 'error';
 
+interface FormProps {
+  id?: string;
+}
 
 const Form: React.FC<FormProps> = ({ id }) => {
-
   const [order, setOrder] = useState<Order | null>(null);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [notification, setNotification] = useState<{ message: string; type: NotificationType } | null>(null);
 
-  const formatDateForInput = (isoDate : string | undefined) => {
+  // Função para inicializar os dados da ordem ou criar nova ordem
+  const initializeFormData = async () => {
+    try {
+      const materialsResponse = await fetchMaterials();
+      if (materialsResponse) setMaterials(materialsResponse);
 
-      const isoDateBase = isoDate ?? new Date().toISOString();
-
-      const date = new Date(isoDateBase);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-
-  } 
-
-
-  const fetchOrInitOrder= async () => { 
-
-    const response = await fetchMaterials();
-    if (response) setMaterials(response);
-
-    if (id) {
-      const orderSearchById = await fetchOrderById(id);
-      if (orderSearchById) setOrder(orderSearchById);
-   
-    } else {
-        setOrder({
-          material_id: 0,
-          quantity: 0,
-          order_date: '',
-        }
-      );
-    }
-    setLoading(false)
-  }
-
-  useEffect(() => {
-
-    fetchOrInitOrder();
-
-  }, []);
-
-
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    
-    validateForm()
-    
-    if (order) {
-      setOrder({
-        ...order,
-        [e.target.name]: e.target.value,
-      });
-    }
-  };
-
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (order) {
-      setOrder({
-        ...order,
-        [e.target.name]: e.target.value,
-      });
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    
-    e.preventDefault();
-    
-    if (order) {
-      if (!id) {
-
-        setLoading(true);
-
-        if (validateForm()) {
-          
-          await createOrder(order);
-        }
-
-        setLoading(false);
-       
-        
+      if (id) {
+        const fetchedOrder = await fetchOrderById(id);
+        if (fetchedOrder) setOrder(fetchedOrder);
       } else {
-
-        setLoading(true);
-
-        if (validateForm()) {
-          await updateOrder(order);
-        }
-        
-        setLoading(false);
+        setOrder({ material_id: 0, quantity: 0, order_date: '' });
       }
-
+    } catch (error) {
+      setNotification({ message: 'Error loading data', type: 'error' });
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Hook useEffect para carregar os dados
+  useEffect(() => {
+    initializeFormData();
+  }, [id]);
 
-  
-const validateForm = () => {
+  // Função de validação do formulário
+  const validateForm = () => {
+    const formErrors: Record<string, string> = {};
+    if (!order?.quantity) formErrors.quantity = 'Quantity is required';
+    if (!order?.material_id) formErrors.material_id = 'Material is required';
+    if (!order?.order_date) formErrors.order_date = 'Date is required';
 
-  let formErrors: { [key: string]: string } = {};
-  
-  if (!order?.quantity) formErrors.quantity = "Quantity is required";
-  if (!order?.material_id) formErrors.material_id = "Material is required";
-  if (!order?.order_date) formErrors.order_date = "Date is required";
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
 
-  setErrors(formErrors);
-  return Object.keys(formErrors).length === 0; // Returns true if no errors
-};
+  // Função para lidar com mudanças em inputs e selects
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    if (order) {
+      setOrder({ ...order, [e.target.name]: e.target.value });
+    }
+  };
 
+  // Função para envio do formulário
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!order || !validateForm()) return;
+
+    setLoading(true);
+
+    try {
+      if (id) {
+        await updateOrder(order);
+        setNotification({ message: 'Update success', type: 'info' });
+      } else {
+        await createOrder(order);
+        setOrder({ material_id: 0, quantity: 0, order_date: '' });
+        setNotification({ message: 'Created success', type: 'success' });
+      }
+    } catch (error) {
+      setNotification({ message: 'Submission failed', type: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Função para formatação de datas (mantida fora do componente)
+  const formatDateForInput = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toISOString().substring(0, 10); // Formato YYYY-MM-DD
+  };
 
   return (
     <section className="h-100 bg-dark">
-    <TransitionGroup>
-    <CSSTransition
-      key={loading ? 'loading' : 'component'}
-      timeout={300}
-      classNames={{
-        enter: styles['fade-enter'],
-        enterActive: styles['fade-enter-active'],
-        exit: styles['fade-exit'],
-        exitActive: styles['fade-exit-active'],
-      }}
-    >
-      <div>
-        {loading ? 
+      {notification && (
+        <Notification message={notification.message} type={notification.type} onClose={() => setNotification(null)} />
+      )}
+      <TransitionGroup>
+        <CSSTransition
+          key={loading ? 'loading' : 'component'}
+          timeout={300}
+          classNames={{
+            enter: transitionstyles['fade-enter'],
+            enterActive: transitionstyles['fade-enter-active'],
+            exit: transitionstyles['fade-exit'],
+            exitActive: transitionstyles['fade-exit-active'],
+          }}
+        >
+          <div>
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <div className="container py-5 h-100">
+                <form onSubmit={handleSubmit}>
+                  <div className="row d-flex justify-content-center align-items-center h-100">
+                    <div className="col">
+                      <div className="card card-registration my-4">
+                        <div className="row g-0">
+                          <div
+                            className="col-xl-6 d-none d-xl-block"
+                            style={{
+                              backgroundImage: "url('https://fastly.picsum.photos/id/307/5000/3333.jpg?hmac=wQFGsFoqFNhjL7Vf3y12D-qiKGUAl-BuhTbFJthHH4I')",
+                              backgroundRepeat: "repeat",
+                              backgroundSize: "contain",
+                              borderTopLeftRadius: ".25rem",
+                              borderBottomLeftRadius: ".25rem",
+                            }}
+                          ></div>
+                          <div className="col-xl-6">
+                            <div className="card-body p-md-5 text-black">
+                              <h3 className="mb-5 text-uppercase">{id ? 'Edit Order' : 'Add New Order'}</h3>
 
-        <LoadingSpinner /> : 
-        
-        <form onSubmit={handleSubmit}>
-          <div className="container py-5 h-100">
-            <div className="row d-flex justify-content-center align-items-center h-100">
-              <div className="col">
-                <div className="card card-registration my-4">
-                  <div className="row g-0">
-                    <div className="col-xl-6 d-none d-xl-block" style={{ 
-                      backgroundImage: "url('https://fastly.picsum.photos/id/307/5000/3333.jpg?hmac=wQFGsFoqFNhjL7Vf3y12D-qiKGUAl-BuhTbFJthHH4I')", 
-                      backgroundRepeat: "repeat", 
-                      backgroundSize: "contain", 
-                      borderTopLeftRadius: ".25rem", 
-                      borderBottomLeftRadius: ".25rem" 
-                    }}>
-                    
-                    </div>
-                    <div className="col-xl-6">
-                      <div className="card-body p-md-5 text-black">
-                        <h3 className="mb-5 text-uppercase">{!id ? 'Add New Order' : 'Edit Order'}</h3>
+                              <div className="row">
+                                <div className="col-md-6 mb-4">
+                                  <label htmlFor="material_id" className="form-label">
+                                    Material
+                                  </label>
+                                  <select
+                                    id="material_id"
+                                    name="material_id"
+                                    value={order?.material_id}
+                                    onChange={handleInputChange}
+                                    required
+                                    className={`form-control ${errors.material_id ? 'is-invalid' : ''}`}
+                                  >
+                                    <option value="">Select a material</option>
+                                    {materials.map((material) => (
+                                      <option key={material.id} value={material.id}>
+                                        {material.name} - {material.type} - ${material.price}
+                                      </option>
+                                    ))}
+                                  </select>
+                                  {errors.material_id && <div className="text-danger">{errors.material_id}</div>}
+                                </div>
 
-                        <div className="row">
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="name" className="form-label">material_id</label>
-                            <select
-                              id="material_id"
-                              name="material_id"
-                              value={order?.material_id}
-                              onChange={handleSelectChange}
-                              required
-                              className="form-control form-control-lg"
-                            >
-                              <option value="">Select a material</option>
-                              {materials.map(material => (
-                                <option key={material.id} value={material.id}  >
-                                  {material.name} - {material.type} - ${material.price}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.material_id && <div className="text-danger">{errors.material_id}</div>}
+                                <div className="col-md-6 mb-4">
+                                  <label htmlFor="quantity" className="form-label">
+                                    Quantity
+                                  </label>
+                                  <input
+                                    type="number"
+                                    id="quantity"
+                                    name="quantity"
+                                    value={order?.quantity}
+                                    onChange={handleInputChange}
+                                    required
+                                    className={`form-control ${errors.quantity ? 'is-invalid' : ''}`}
+                                  />
+                                  {errors.quantity && <div className="text-danger">{errors.quantity}</div>}
+                                </div>
+                              </div>
+
+                              <div className="row">
+                                <div className="col-md-6 mb-4">
+                                  <label htmlFor="order_date" className="form-label">
+                                    Order Date
+                                  </label>
+                                  <input
+                                    type="date"
+                                    id="order_date"
+                                    name="order_date"
+                                    value={order?.order_date ? formatDateForInput(order.order_date) : ''}
+                                    onChange={handleInputChange}
+                                    required
+                                    className={`form-control ${errors.order_date ? 'is-invalid' : ''}`}
+                                  />
+                                  {errors.order_date && <div className="text-danger">{errors.order_date}</div>}
+                                </div>
+                              </div>
+
+                              <div className="d-flex justify-content-end pt-3">
+                                <button type="submit" className="btn btn-primary">
+                                  {id ? 'Update' : 'Create'}
+                                </button>
+                              </div>
+                            </div>
                           </div>
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="type" className="form-label">quantity</label>
-                            <input
-                              type="int"
-                              id="quantity"
-                              name="quantity"
-                              value={order?.quantity}
-                              onChange={handleChange}
-                              placeholder="quantity"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.quantity && <div className="text-danger">{errors.quantity}</div>}
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="description" className="form-label">order_date</label>
-                            <input
-                              type="date"
-                              id="order_date"
-                              name="order_date"
-                              value={formatDateForInput(order?.order_date)}
-                              onChange={handleChange}
-                              placeholder="order_date"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.order_date && <div className="text-danger">{errors.order_date}</div>}
-                          </div>
-                          
-                        </div>
-
-                        <div className="d-flex justify-content-end pt-3">
-                          <button type="button" onClick={handleSubmit} className="btn btn-primary">
-                            {order?.id ? 'Update' : 'Create'}
-                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </form>
               </div>
-            </div>
+            )}
           </div>
-      </form>
-        }
-      </div>
-    </CSSTransition>
-  </TransitionGroup>
-
-  </section>
-
-  
+        </CSSTransition>
+      </TransitionGroup>
+    </section>
   );
 };
 

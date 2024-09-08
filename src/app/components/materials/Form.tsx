@@ -3,14 +3,13 @@
 import { useState, useEffect } from 'react';
 import { Material } from '@/models/Material';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
-
-
+import Notification from '@/app/components/Notification';
 import { fetchMaterialById, createMaterial, updateMaterial } from '@/lib/actions/materialsService';
-
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import transitionstyles from '@/app/components/Transition.module.css';
 
 
-import styles from './Form.module.css';
+type NotificationType = 'info' | 'success' | 'error';
 
 interface FormProps {
     id?: String; 
@@ -22,18 +21,66 @@ const Form: React.FC<FormProps> = ({ id }) => {
   const [material, setMaterial] = useState<Material | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [notification, setNotification] = useState<{ message: string; type: NotificationType } | null>(null);
 
+
+
+  
+  const initializeFormData = async () => {
+    try {
+      if (id) {
+        const materialSearchById = await fetchMaterialById(id);
+        if (materialSearchById) setMaterial(materialSearchById); 
+      } else {
+        setMaterial({
+          name: '',
+          type: '',
+          description: '',
+          thickness: 0,
+          width: 0,
+          height: 0,
+          color: '',
+          manufacturer: '',
+          manufacturer_code: '',
+          price: 0,
+        }
+      );
+      }
+    } catch (error) {
+      setNotification({ message: 'Error loading data', type: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   useEffect(() => {
+    initializeFormData();
+  }, [id]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (material) {
+      validateForm();
+      setMaterial({
+        ...material,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
 
 
-    const fetchOrInitMaterial = async () => { 
-
-      if (id) {
-        const materialSearchById = await fetchMaterialById(id);
-        if (materialSearchById) setMaterial(materialSearchById);   
-      } else {
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!material || !validateForm()) return;
+  
+      setLoading(true);
+  
+      try {
+        if (id) {
+          await updateMaterial(material);
+          setNotification({ message: 'Update success', type: 'info' });
+        } else {
+          await createMaterial(material);
           setMaterial({
             name: '',
             type: '',
@@ -45,46 +92,15 @@ const Form: React.FC<FormProps> = ({ id }) => {
             manufacturer: '',
             manufacturer_code: '',
             price: 0,
-          }
-        );
-      }
-
-      
-      setLoading(false);
-    }
-
-    fetchOrInitMaterial();
-    
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (material) {
-      validateForm();
-      setMaterial({
-        ...material,
-        [e.target.name]: e.target.value,
-      });
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (material) {
-      if (!id) {
-        setLoading(true);
-        if (validateForm()) {
-          await createMaterial(material);
+          });
+          setNotification({ message: 'Created success', type: 'success' });
         }
-        setLoading(false);
-      } else {
-        setLoading(true);
-        if (validateForm()) {
-          await updateMaterial(material);
-        } 
+      } catch (error) {
+        setNotification({ message: 'Submission failed', type: 'error' });
+      } finally {
         setLoading(false);
       }
-    }
-  };
+    };
 
 
 const validateForm = () => {
@@ -110,15 +126,19 @@ const validateForm = () => {
 
   return (
     <section className="h-100 bg-dark">
+
+    {notification && (
+      <Notification message={notification.message} type={notification.type} onClose={() => setNotification(null)} />
+    )}
     <TransitionGroup>
     <CSSTransition
       key={loading ? 'loading' : 'component'}
       timeout={300}
       classNames={{
-        enter: styles['fade-enter'],
-        enterActive: styles['fade-enter-active'],
-        exit: styles['fade-exit'],
-        exitActive: styles['fade-exit-active'],
+        enter: transitionstyles['fade-enter'],
+        enterActive: transitionstyles['fade-enter-active'],
+        exit: transitionstyles['fade-exit'],
+        exitActive: transitionstyles['fade-exit-active'],
       }}
     >
       <div>
@@ -126,8 +146,8 @@ const validateForm = () => {
 
         <LoadingSpinner /> : 
         
-        <form onSubmit={handleSubmit}>
           <div className="container py-5 h-100">
+          <form onSubmit={handleSubmit}>
             <div className="row d-flex justify-content-center align-items-center h-100">
               <div className="col">
                 <div className="card card-registration my-4">
@@ -153,7 +173,7 @@ const validateForm = () => {
                               id="name"
                               name="name"
                               value={material?.name}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               placeholder="Name"
                               required
                               className="form-control form-control-lg"
@@ -167,7 +187,7 @@ const validateForm = () => {
                               id="type"
                               name="type"
                               value={material?.type}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               placeholder="Type"
                               required
                               className="form-control form-control-lg"
@@ -184,7 +204,7 @@ const validateForm = () => {
                               id="description"
                               name="description"
                               value={material?.description}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               placeholder="Description"
                               required
                               className="form-control form-control-lg"
@@ -198,7 +218,7 @@ const validateForm = () => {
                               id="thickness"
                               name="thickness"
                               value={material?.thickness}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               placeholder="Thickness"
                               required
                               className="form-control form-control-lg"
@@ -215,7 +235,7 @@ const validateForm = () => {
                               id="width"
                               name="width"
                               value={material?.width}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               placeholder="Width"
                               required
                               className="form-control form-control-lg"
@@ -229,7 +249,7 @@ const validateForm = () => {
                               id="height"
                               name="height"
                               value={material?.height}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               placeholder="Height"
                               required
                               className="form-control form-control-lg"
@@ -246,7 +266,7 @@ const validateForm = () => {
                               id="color"
                               name="color"
                               value={material?.color}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               placeholder="Color"
                               required
                               className="form-control form-control-lg"
@@ -260,7 +280,7 @@ const validateForm = () => {
                               id="manufacturer"
                               name="manufacturer"
                               value={material?.manufacturer}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               placeholder="Manufacturer"
                               required
                               className="form-control form-control-lg"
@@ -277,7 +297,7 @@ const validateForm = () => {
                               id="manufacturer_code"
                               name="manufacturer_code"
                               value={material?.manufacturer_code}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               placeholder="Manufacturer Code"
                               required
                               className="form-control form-control-lg"
@@ -291,7 +311,7 @@ const validateForm = () => {
                               id="price"
                               name="price"
                               value={material?.price}
-                              onChange={handleChange}
+                              onChange={handleInputChange}
                               placeholder="Price"
                               required
                               className="form-control form-control-lg"
@@ -311,8 +331,8 @@ const validateForm = () => {
                 </div>
               </div>
             </div>
+            </form>
           </div>
-      </form>
         }
       </div>
     </CSSTransition>

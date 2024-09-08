@@ -42,10 +42,11 @@ export const createMaterial = async (material: Omit<Material, 'id' | 'created_at
       console.error(error);
       throw error;
     }
-    
-  } finally {
-    redirect('/materials');
+  
   }
+  // } finally {
+  //   redirect('/materials');
+  // }
 };
 
 export const updateMaterial = async (material: Material) => {
@@ -65,9 +66,10 @@ export const updateMaterial = async (material: Material) => {
       throw error;
     }
     
-  } finally {
-    redirect('/materials');
-  }
+  } 
+  // finally {
+  //   redirect('/materials');
+  // }
 
 };
 

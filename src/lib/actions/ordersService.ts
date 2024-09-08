@@ -43,9 +43,10 @@ export const createOrder = async (order: Omit<Order, 'id' | 'created_at' | 'upda
       throw error;
     }
     
-  } finally {
-    redirect('/orders');
-  }
+  } 
+  // finally {
+  //   redirect('/orders');
+  // }
 };
 
 export const updateOrder = async (order: Order) => {
@@ -65,9 +66,11 @@ export const updateOrder = async (order: Order) => {
       throw error;
     }
     
-  } finally {
-    redirect('/orders');
-  }
+  } 
+  
+  // finally {
+  //   redirect('/orders');
+  // }
 
 };
 
