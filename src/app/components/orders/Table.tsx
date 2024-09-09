@@ -1,14 +1,24 @@
 "use client"
 
+// React
 import React, { useState, useEffect, ChangeEvent } from 'react';
+
+// Services
 import { fetchOrders } from '@/lib/actions/ordersService';
+
+// Components
 import LoadingSpinner from '@/app/components/LoadingSpinner';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import transitionstyles from '@/app/components/Transition.module.css';
-import { OrderWithMaterial} from '@/models/Order';
 import DeleteButton from './DeleteButton';
 import Button from '@/app/components/Button';
-import DataTable from "react-data-table-component";
+import DataTable from 'react-data-table-component';
+
+// Transitions
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import transitionstyles from '@/app/components/Transition.module.css';
+
+// Models
+import { OrderWithMaterial } from '@/models/Order';
+
 
 export default function Table() {
 
@@ -94,7 +104,6 @@ export default function Table() {
         ) : (
           <div className="mt-4">
                 <DataTable
-                  title="Order Data"
                   columns={columns}
                   data={filteredData}
                   subHeader
@@ -107,6 +116,7 @@ export default function Table() {
                       onChange={handleSearch}
                   />
                   }
+                  pagination
               />
           </div>
         )}

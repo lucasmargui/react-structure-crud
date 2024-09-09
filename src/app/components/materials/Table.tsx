@@ -1,14 +1,24 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent  } from 'react';
+// React
+import React, { useState, useEffect, ChangeEvent } from 'react';
+
+// Services
 import { fetchMaterials } from '@/lib/actions/materialsService';
+
+// Components
 import LoadingSpinner from '@/app/components/LoadingSpinner';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import transitionstyles from '@/app/components/Transition.module.css';
-import { Material } from '@/models/Material';
 import DeleteButton from './DeleteButton';
 import Button from '@/app/components/Button';
-import DataTable from "react-data-table-component";
+import DataTable from 'react-data-table-component';
+
+// Transitions
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import transitionstyles from '@/app/components/Transition.module.css';
+
+// Models
+import { Material } from '@/models/Material';
+
 
 export default function Table() {
   const [materials, setMaterials] = useState<Material[]>([]);
@@ -138,7 +148,6 @@ export default function Table() {
           ) : (
     
             <DataTable
-                title="Material Data"
                 columns={columns}
                 data={filteredData}
                 subHeader
@@ -151,6 +160,7 @@ export default function Table() {
                     onChange={handleSearch}
                 />
                 }
+                pagination
             />
           
           )}

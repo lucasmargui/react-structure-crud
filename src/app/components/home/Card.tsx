@@ -1,9 +1,6 @@
 import React from 'react';
 
 
-// import styles from './Card.module.css'; // Importar o CSS para estilização
-
-
 interface CardProps {
     imageSrc: string;
     title: string;

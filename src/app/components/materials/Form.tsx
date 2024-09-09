@@ -1,12 +1,22 @@
 "use client"
 
+// React Hooks
 import { useState, useEffect } from 'react';
+
+// Models
 import { Material } from '@/models/Material';
+
+// Components
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import Notification from '@/app/components/Notification';
+
+// Services
 import { fetchMaterialById, createMaterial, updateMaterial } from '@/lib/actions/materialsService';
+
+// Transitions
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import transitionstyles from '@/app/components/Transition.module.css';
+
 
 
 type NotificationType = 'info' | 'success' | 'error';

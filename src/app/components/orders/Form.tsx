@@ -1,14 +1,25 @@
 "use client";
 
+// React Hooks
 import { useState, useEffect } from 'react';
+
+// Models
 import { Order } from '@/models/Order';
+import { Material } from '@/models/Material';
+
+// Components
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import Notification from '@/app/components/Notification';
+
+// Services
 import { fetchOrderById, createOrder, updateOrder } from '@/lib/actions/ordersService';
 import { fetchMaterials } from '@/lib/actions/materialsService';
+
+// Transitions
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import transitionstyles from '@/app/components/Transition.module.css';
-import { Material } from '@/models/Material';
+
+
 
 type NotificationType = 'info' | 'success' | 'error';
 
