@@ -2,6 +2,8 @@
 
 This repository contains a basic CRUD application built with Next.js and TypeScript.
 
+<details>
+<summary>Click to show details about </summary>
 
 ### 1. Creating the Project
 
@@ -41,9 +43,14 @@ After creating the project and updating tsconfig.json, you can start the develop
 npm run dev
 ```
 
+</details>
+
 # Database Connection
 
 To integrate a MySQL database with a React application, we often opt for MySQL over SQL Server when using Windows Authentication, mainly due to compatibility and ease of setup.
+
+<details>
+<summary>Click to show details about </summary>
 
 ### 1. Install mysql2
 
@@ -73,12 +80,15 @@ This module provides a function to establish a connection to a MySQL database us
 
 ![image](https://github.com/user-attachments/assets/f4a63d48-439c-4606-8e8f-882392df52fa)
 
-
+</details>
 
 
 # Create Models
 
 React does not provide a model structure to work with, but we can use interfaces to define the structure of classes
+
+<details>
+<summary>Click to show details about </summary>
 
 ### Main Differences 
 
@@ -89,13 +99,13 @@ React does not provide a model structure to work with, but we can use interfaces
 ![image](https://github.com/user-attachments/assets/77cd3aca-1269-4877-a3ee-3bec56f7cdb3)
 
 
+</details>
+
 # Migrations
 
 React does not have a migration structure like backend frameworks (e.g., Django, Rails) because it is a frontend library focused on building user interfaces rather than managing databases or data persistence.
 
 # Template Inheritance
-
-## File Structure
 
 For each route in Next.js, you can define two main files:
 
@@ -104,13 +114,21 @@ For each route in Next.js, you can define two main files:
 2. **`layout.tsx` or `layout.js`**: This file defines the layout for the route and its descendant routes. The layout serves as a "wrapping" structure for the page and can include common elements such as headers, footers, and sidebars.
 
 
+<details>
+<summary>Click to show details about </summary>
+  
+
 ## Layout (Master Page):
 
 If a route has a `layout.tsx`, all routes descending from that route will inherit the same layout. This means that:
+
 - The page component (defined in `page.tsx`) will be rendered within the layout.
-- Any sub-route (child route) will also be wrapped by the layout, maintaining interface consistency.
 
 ![image](https://github.com/user-attachments/assets/f3cee1d2-6631-4458-9cee-88a521489cd7)
+
+- Any sub-route (child route) will also be wrapped by the layout, maintaining interface consistency.
+
+![image](https://github.com/user-attachments/assets/c20a1ebc-5909-4f8d-bdad-0bff15847083)
 
 
 ##  Rendering Content
@@ -121,11 +139,15 @@ If a route has a `layout.tsx`, all routes descending from that route will inheri
  ![image](https://github.com/user-attachments/assets/0b773e6e-b765-4478-bfb8-148848975b20)
 
 
+</details>
+
 # Controller
 
-## API Routes: Simulating Controllers
-
 API Routes in Next.js allow you to handle server-side logic and data processing similarly to how controllers work in MVC frameworks.
+
+<details>
+<summary>Click to show details about </summary>
+
 
 ### 1. Creating an API Route
 
@@ -151,10 +173,14 @@ You can make requests to the API route from your React components using fetch or
 
 ![image](https://github.com/user-attachments/assets/b1eb8074-8426-4c95-8fa1-c5816ec66b2b)
 
+</details>
 
 # Routes
 
 Next.js provides a powerful routing system based on the file system, which simplifies the creation and management of routes in your application.
+
+<details>
+<summary>Click to show details about </summary>
 
 ## Basic Routing
 
@@ -190,12 +216,16 @@ Dynamic routes are created by using brackets ([]) in the file or folder names. T
 
 - ROUTE: `/materials/5/edit` -> `materials/[id]/edit/page.tsx`
 
+</details>
 
 # Views
 
-## Pages and Routes
-
 In Next.js, each file in the `pages` directory corresponds to a route in your application.
+
+<details>
+<summary>Click to show details about </summary>
+
+## Pages and Routes
 
 - `/page.tsx` maps to `/`
 - `materials/page.tsx` maps to `/materials`
@@ -215,7 +245,7 @@ CSS Modules: Style each component with its own CSS file, scoped to the component
 
 ![image](https://github.com/user-attachments/assets/ba92a842-b13e-4547-a33f-f7440f7cec95)
 
-
+</details>
 
 ![image](https://github.com/user-attachments/assets/7a94149b-3f9d-4e23-aa90-976bdbbb9416)
 
