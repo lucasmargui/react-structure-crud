@@ -77,9 +77,84 @@ This module provides a function to establish a connection to a MySQL database us
 
 
 # Create Models
+
+React does not provide a model structure to work with, but we can use interfaces to define the structure of classes
+
+### Main Differences 
+
+- ***Persistence***: Models directly deal with data persistence in databases. TypeScript interfaces are just descriptions of types and have no interaction with persistence.
+- ***Validation***: Models provide built-in validation mechanisms. In TypeScript, validations need to be done separately if necessary.
+- ***Availability***: Models exist both in the backend and in the database. Interfaces only exist during development time to ensure typing, and are removed when converted to JavaScript
+
+![image](https://github.com/user-attachments/assets/77cd3aca-1269-4877-a3ee-3bec56f7cdb3)
+
+
 # Migrations
+
+React does not have a migration structure like backend frameworks (e.g., Django, Rails) because it is a frontend library focused on building user interfaces rather than managing databases or data persistence.
+
 # Template Inheritance
+
+## File Structure
+
+For each route in Next.js, you can define two main files:
+
+1. **`page.tsx` or `page.js`**: This file defines the main content of the route. When a user accesses the corresponding route, the component exported from `page.tsx` will be rendered.
+
+2. **`layout.tsx` or `layout.js`**: This file defines the layout for the route and its descendant routes. The layout serves as a "wrapping" structure for the page and can include common elements such as headers, footers, and sidebars.
+
+
+## Layout (Master Page):
+
+If a route has a `layout.tsx`, all routes descending from that route will inherit the same layout. This means that:
+- The page component (defined in `page.tsx`) will be rendered within the layout.
+- Any sub-route (child route) will also be wrapped by the layout, maintaining interface consistency.
+
+![image](https://github.com/user-attachments/assets/f3cee1d2-6631-4458-9cee-88a521489cd7)
+
+
+##  Rendering Content
+
+- The `/` route will render the content defined in `page.tsx`, wrapped by the layout defined in `layout.tsx`
+- The `/materials` subroute will also be rendered within the same layout as `/`, automatically inheriting it
+
+ ![image](https://github.com/user-attachments/assets/0b773e6e-b765-4478-bfb8-148848975b20)
+
+
 # Controller
+
+## API Routes: Simulating Controllers
+
+API Routes in Next.js allow you to handle server-side logic and data processing similarly to how controllers work in MVC frameworks.
+
+### 1. Creating an API Route
+
+Create an API Route by adding a file inside the `src/app/` directory. For example, create `src/app/api/data`:
+
+![image](https://github.com/user-attachments/assets/c78d966a-0735-4ed4-863e-f896e2960e3b)
+
+
+### 2. Organizing Logic with Services 
+
+For better organization, you can create services to handle business logic separately from your API routes.
+
+![image](https://github.com/user-attachments/assets/4b7846d1-5fec-4b47-baf3-0b315a16b226)
+
+
+![image](https://github.com/user-attachments/assets/0e5daad9-48d8-4f48-a3f2-bd75f2604283)
+
+
+### 3. Consuming the API Route in a React Component
+
+You can make requests to the API route from your React components using fetch or libraries like axios.
+
+
+![image](https://github.com/user-attachments/assets/b1eb8074-8426-4c95-8fa1-c5816ec66b2b)
+
+
+
+
+
 # Routes
 # Views
 
