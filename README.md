@@ -152,11 +152,69 @@ You can make requests to the API route from your React components using fetch or
 ![image](https://github.com/user-attachments/assets/b1eb8074-8426-4c95-8fa1-c5816ec66b2b)
 
 
-
-
-
 # Routes
+
+Next.js provides a powerful routing system based on the file system, which simplifies the creation and management of routes in your application.
+
+## Basic Routing
+
+In Next.js, routes are defined by the file structure inside the `pages` directory. Each JavaScript file in this directory automatically maps to a route.
+
+**File Structure:**
+
+![image](https://github.com/user-attachments/assets/ad58cf6c-7eec-42c9-8b8d-f2977a0c1805)
+
+- ROUTE: `/` maps to `page.tsx`
+- ROUTE: `/materials` maps to `materials/page.tsx`
+- ROUTE: `/orders` maps to `orders/page.tsx`
+
+
+## Nested Routes
+
+You can create nested routes by creating subfolders inside the pages directory.
+
+**File Structure:**
+
+![image](https://github.com/user-attachments/assets/1dd03fa6-2699-42b4-9eed-1892fd91df9c)
+
+- ROUTE: `/materials/create` maps to `materials/create/page.tsx`
+- ROUTE: `/materials/` maps to `materials/page.tsx`
+
+## Dynamic Routes
+
+Dynamic routes are created by using brackets ([]) in the file or folder names. This allows you to define parameters in the URL.
+
+**File Structure:**
+
+![image](https://github.com/user-attachments/assets/1dd03fa6-2699-42b4-9eed-1892fd91df9c)
+
+- ROUTE: `/materials/5/edit` -> `materials/[id]/edit/page.tsx`
+
+
 # Views
+
+## Pages and Routes
+
+In Next.js, each file in the `pages` directory corresponds to a route in your application.
+
+- `/page.tsx` maps to `/`
+- `materials/page.tsx` maps to `/materials`
+- `materials/edit/[id]/page.tsx` maps to `/posts/:id`, where `:id` is a dynamic parameter
+
+## Components
+
+Views in Next.js are typically composed of React components. These components can be reused across pages to modularize your application.
+
+![image](https://github.com/user-attachments/assets/fdf7c067-7ec4-4845-9a76-a61e3d8c3d20)
+
+## Styling
+
+CSS Modules: Style each component with its own CSS file, scoped to the component.
+
+![image](https://github.com/user-attachments/assets/a4effacb-1e2b-4405-b5b7-1c4e989a81a2)
+
+![image](https://github.com/user-attachments/assets/ba92a842-b13e-4547-a33f-f7440f7cec95)
+
 
 
 ![image](https://github.com/user-attachments/assets/7a94149b-3f9d-4e23-aa90-976bdbbb9416)
