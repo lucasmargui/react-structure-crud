@@ -14,7 +14,7 @@ import { OrderWithMaterial } from '@/app/models/Order';
 
 
 // Mocking the fetchMaterials function
-jest.mock('@/lib/actions/ordersService', () => ({
+jest.mock('@/app/lib/actions/ordersService', () => ({
   fetchOrders: jest.fn(),
 }));
 

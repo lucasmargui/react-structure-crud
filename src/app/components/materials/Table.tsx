@@ -128,47 +128,26 @@ export default function Table() {
   }, []);
 
   return (
-    <TransitionGroup>
-      <CSSTransition
-        key={loading ? 'loading' : 'component'}
-        timeout={300}
-        nodeRef={nodeRef}
-        unmountOnExit
-        classNames={{
-          enter: transitionstyles['fade-enter'],
-          enterActive: transitionstyles['fade-enter-active'],
-          exit: transitionstyles['fade-exit'],
-          exitActive: transitionstyles['fade-exit-active'],
-        }}
-      >
-        <div className="mt-4" ref={nodeRef}>
-            
-          {loading ? (
-      
+    <div className="mt-4">
+        {loading ? (
             <LoadingSpinner />
-    
-        
-          ) : (
-    
+        ) : (
             <DataTable
                 columns={columns}
                 data={filteredData}
                 subHeader
                 subHeaderComponent={
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    className="form-control"
-                    value={searchText}
-                    onChange={handleSearch}
-                />
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        className="form-control"
+                        value={searchText}
+                        onChange={handleSearch}
+                    />
                 }
                 pagination
             />
-          
-          )}
-        </div>
-      </CSSTransition>
-    </TransitionGroup>
+        )}
+    </div>
   );
 }

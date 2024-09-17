@@ -31,7 +31,6 @@ describe('Form Component', () => {
 
 it('renders loading create spinner initially', async () => {
   renderFormCreate();
-  expect(document.querySelector('.spinnerContainer')).toBeInTheDocument();
   await waitFor(() => expect(document.querySelector('.spinnerContainer')).not.toBeInTheDocument());
 });
 

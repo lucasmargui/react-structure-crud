@@ -140,216 +140,201 @@ const validateForm = () => {
     {notification && (
       <Notification message={notification.message} type={notification.type} onClose={() => setNotification(null)} />
     )}
-    <TransitionGroup>
-    <CSSTransition
-      key={loading ? 'loading' : 'component'}
-      timeout={300}
-      nodeRef={nodeRef}
-      unmountOnExit
-      classNames={{
-        enter: transitionstyles['fade-enter'],
-        enterActive: transitionstyles['fade-enter-active'],
-        exit: transitionstyles['fade-exit'],
-        exitActive: transitionstyles['fade-exit-active'],
-      }}
-    >
-      <div>
-        {loading ? 
 
-           ( <LoadingSpinner /> ) : 
-        
-         ( <div className="container py-5 h-100">
-          <form onSubmit={handleSubmit}  aria-label="material-form" >
-            <div className="row d-flex justify-content-center align-items-center h-100">
-              <div className="col">
-                <div className="card card-registration my-4">
-                  <div className="row g-0">
-                    <div className="col-xl-6 d-none d-xl-block" style={{ 
-                      backgroundImage: "url('https://fastly.picsum.photos/id/307/5000/3333.jpg?hmac=wQFGsFoqFNhjL7Vf3y12D-qiKGUAl-BuhTbFJthHH4I')", 
-                      backgroundRepeat: "repeat", 
-                      backgroundSize: "contain", 
-                      borderTopLeftRadius: ".25rem", 
-                      borderBottomLeftRadius: ".25rem" 
-                    }}>
-                    
-                    </div>
-                    <div className="col-xl-6">
-                      <div className="card-body p-md-5 text-black">
-                        <h3 className="mb-5 text-uppercase">{!id ? 'Add New Material' : 'Edit Material'}</h3>
+    <div>
+      {loading ? ( 
+          <LoadingSpinner /> 
+        ) : (
+          <div className="container py-5 h-100" ref={nodeRef}>
+            <form onSubmit={handleSubmit}  aria-label="material-form" >
+              <div className="row d-flex justify-content-center align-items-center h-100">
+                <div className="col">
+                  <div className="card card-registration my-4">
+                    <div className="row g-0">
+                      <div className="col-xl-6 d-none d-xl-block" style={{ 
+                        backgroundImage: "url('https://fastly.picsum.photos/id/307/5000/3333.jpg?hmac=wQFGsFoqFNhjL7Vf3y12D-qiKGUAl-BuhTbFJthHH4I')", 
+                        backgroundRepeat: "repeat", 
+                        backgroundSize: "contain", 
+                        borderTopLeftRadius: ".25rem", 
+                        borderBottomLeftRadius: ".25rem" 
+                      }}>
+                      
+                      </div>
+                      <div className="col-xl-6">
+                        <div className="card-body p-md-5 text-black">
+                          <h3 className="mb-5 text-uppercase">{!id ? 'Add New Material' : 'Edit Material'}</h3>
 
-                        <div className="row">
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="name" className="form-label">Name</label>
-                            <input
-                              type="text"
-                              id="name"
-                              name="name"
-                              value={material?.name}
-                              onChange={handleInputChange}
-                              placeholder="Name"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.name && <div className="text-danger">{errors.name}</div>}
+                          <div className="row">
+                            <div className="col-md-6 mb-4">
+                              <label htmlFor="name" className="form-label">Name</label>
+                              <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={material?.name}
+                                onChange={handleInputChange}
+                                placeholder="Name"
+                                required
+                                className="form-control form-control-lg"
+                              />
+                              {errors.name && <div className="text-danger">{errors.name}</div>}
+                            </div>
+                            <div className="col-md-6 mb-4">
+                              <label htmlFor="type" className="form-label">Type</label>
+                              <input
+                                type="text"
+                                id="type"
+                                name="type"
+                                value={material?.type}
+                                onChange={handleInputChange}
+                                placeholder="Type"
+                                required
+                                className="form-control form-control-lg"
+                              />
+                              {errors.type && <div className="text-danger">{errors.type}</div>}
+                            </div>
                           </div>
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="type" className="form-label">Type</label>
-                            <input
-                              type="text"
-                              id="type"
-                              name="type"
-                              value={material?.type}
-                              onChange={handleInputChange}
-                              placeholder="Type"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.type && <div className="text-danger">{errors.type}</div>}
-                          </div>
-                        </div>
 
-                        <div className="row">
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="description" className="form-label">Description</label>
-                            <input
-                              type="text"
-                              id="description"
-                              name="description"
-                              value={material?.description}
-                              onChange={handleInputChange}
-                              placeholder="Description"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.description && <div className="text-danger">{errors.description}</div>}
+                          <div className="row">
+                            <div className="col-md-6 mb-4">
+                              <label htmlFor="description" className="form-label">Description</label>
+                              <input
+                                type="text"
+                                id="description"
+                                name="description"
+                                value={material?.description}
+                                onChange={handleInputChange}
+                                placeholder="Description"
+                                required
+                                className="form-control form-control-lg"
+                              />
+                              {errors.description && <div className="text-danger">{errors.description}</div>}
+                            </div>
+                            <div className="col-md-6 mb-4">
+                              <label htmlFor="thickness" className="form-label">Thickness</label>
+                              <input
+                                type="number"
+                                id="thickness"
+                                name="thickness"
+                                value={material?.thickness}
+                                onChange={handleInputChange}
+                                placeholder="Thickness"
+                                required
+                                className="form-control form-control-lg"
+                              />
+                              {errors.thickness && <div className="text-danger">{errors.thickness}</div>}
+                            </div>
                           </div>
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="thickness" className="form-label">Thickness</label>
-                            <input
-                              type="number"
-                              id="thickness"
-                              name="thickness"
-                              value={material?.thickness}
-                              onChange={handleInputChange}
-                              placeholder="Thickness"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.thickness && <div className="text-danger">{errors.thickness}</div>}
-                          </div>
-                        </div>
 
-                        <div className="row">
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="width" className="form-label">Width</label>
-                            <input
-                              type="number"
-                              id="width"
-                              name="width"
-                              value={material?.width}
-                              onChange={handleInputChange}
-                              placeholder="Width"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                             {errors.width && <div className="text-danger">{errors.width}</div>}
+                          <div className="row">
+                            <div className="col-md-6 mb-4">
+                              <label htmlFor="width" className="form-label">Width</label>
+                              <input
+                                type="number"
+                                id="width"
+                                name="width"
+                                value={material?.width}
+                                onChange={handleInputChange}
+                                placeholder="Width"
+                                required
+                                className="form-control form-control-lg"
+                              />
+                              {errors.width && <div className="text-danger">{errors.width}</div>}
+                            </div>
+                            <div className="col-md-6 mb-4">
+                              <label htmlFor="height" className="form-label">Height</label>
+                              <input
+                                type="number"
+                                id="height"
+                                name="height"
+                                value={material?.height}
+                                onChange={handleInputChange}
+                                placeholder="Height"
+                                required
+                                className="form-control form-control-lg"
+                              />
+                              {errors.height && <div className="text-danger">{errors.height}</div>}
+                            </div>
                           </div>
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="height" className="form-label">Height</label>
-                            <input
-                              type="number"
-                              id="height"
-                              name="height"
-                              value={material?.height}
-                              onChange={handleInputChange}
-                              placeholder="Height"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.height && <div className="text-danger">{errors.height}</div>}
-                          </div>
-                        </div>
 
-                        <div className="row">
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="color" className="form-label">Color</label>
-                            <input
-                              type="text"
-                              id="color"
-                              name="color"
-                              value={material?.color}
-                              onChange={handleInputChange}
-                              placeholder="Color"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.color && <div className="text-danger">{errors.color}</div>}
+                          <div className="row">
+                            <div className="col-md-6 mb-4">
+                              <label htmlFor="color" className="form-label">Color</label>
+                              <input
+                                type="text"
+                                id="color"
+                                name="color"
+                                value={material?.color}
+                                onChange={handleInputChange}
+                                placeholder="Color"
+                                required
+                                className="form-control form-control-lg"
+                              />
+                              {errors.color && <div className="text-danger">{errors.color}</div>}
+                            </div>
+                            <div className="col-md-6 mb-4">
+                              <label htmlFor="manufacturer" className="form-label">Manufacturer</label>
+                              <input
+                                type="text"
+                                id="manufacturer"
+                                name="manufacturer"
+                                value={material?.manufacturer}
+                                onChange={handleInputChange}
+                                placeholder="Manufacturer"
+                                required
+                                className="form-control form-control-lg"
+                              />
+                              {errors.manufacturer && <div className="text-danger">{errors.manufacturer}</div>}
+                            </div>
                           </div>
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="manufacturer" className="form-label">Manufacturer</label>
-                            <input
-                              type="text"
-                              id="manufacturer"
-                              name="manufacturer"
-                              value={material?.manufacturer}
-                              onChange={handleInputChange}
-                              placeholder="Manufacturer"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.manufacturer && <div className="text-danger">{errors.manufacturer}</div>}
-                          </div>
-                        </div>
 
-                        <div className="row">
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="manufacturer_code" className="form-label">Manufacturer Code</label>
-                            <input
-                              type="text"
-                              id="manufacturer_code"
-                              name="manufacturer_code"
-                              value={material?.manufacturer_code}
-                              onChange={handleInputChange}
-                              placeholder="Manufacturer Code"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.manufacturer_code && <div className="text-danger">{errors.manufacturer_code}</div>}
+                          <div className="row">
+                            <div className="col-md-6 mb-4">
+                              <label htmlFor="manufacturer_code" className="form-label">Manufacturer Code</label>
+                              <input
+                                type="text"
+                                id="manufacturer_code"
+                                name="manufacturer_code"
+                                value={material?.manufacturer_code}
+                                onChange={handleInputChange}
+                                placeholder="Manufacturer Code"
+                                required
+                                className="form-control form-control-lg"
+                              />
+                              {errors.manufacturer_code && <div className="text-danger">{errors.manufacturer_code}</div>}
+                            </div>
+                            <div className="col-md-6 mb-4">
+                              <label htmlFor="price" className="form-label">Price</label>
+                              <input
+                                type="number"
+                                id="price"
+                                name="price"
+                                value={material?.price}
+                                onChange={handleInputChange}
+                                placeholder="Price"
+                                required
+                                className="form-control form-control-lg"
+                              />
+                              {errors.price && <div className="text-danger">{errors.price}</div>}
+                            </div>
                           </div>
-                          <div className="col-md-6 mb-4">
-                            <label htmlFor="price" className="form-label">Price</label>
-                            <input
-                              type="number"
-                              id="price"
-                              name="price"
-                              value={material?.price}
-                              onChange={handleInputChange}
-                              placeholder="Price"
-                              required
-                              className="form-control form-control-lg"
-                            />
-                            {errors.price && <div className="text-danger">{errors.price}</div>}
-                          </div>
-                        </div>
 
-                        <div className="d-flex justify-content-end pt-3">
-                          <button type="button" onClick={handleSubmit} className="btn btn-primary">
-                            {material?.id ? 'Update' : 'Create'}
-                          </button>
+                          <div className="d-flex justify-content-end pt-3">
+                            <button type="button" onClick={handleSubmit} className="btn btn-primary">
+                              {material?.id ? 'Update' : 'Create'}
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            </form>
+              </form>
           </div>
          )
         }
       </div>
-    </CSSTransition>
-  </TransitionGroup>
 
   </section>
 

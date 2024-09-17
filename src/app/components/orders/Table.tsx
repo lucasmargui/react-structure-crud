@@ -76,11 +76,18 @@ export default function Table() {
 
   useEffect(() => {
     async function fetchData(){
-
+      
+      try {
         const data = await fetchOrders();
         setOrder(data);
         setFilteredData(data);
+      } catch (error) {
+        console.log({ message: 'Error loading data', type: 'error' });
+      } finally {
         setLoading(false);
+      }
+
+   
     }
 
     fetchData();
@@ -88,47 +95,29 @@ export default function Table() {
 
   return (
 
-    <TransitionGroup>
-    <CSSTransition
-        key={loading ? 'loading' : 'component'}
-        timeout={300}
-        nodeRef={nodeRef}
-        unmountOnExit
-        classNames={{
-          enter: transitionstyles['fade-enter'],
-          enterActive: transitionstyles['fade-enter-active'],
-          exit: transitionstyles['fade-exit'],
-          exitActive: transitionstyles['fade-exit-active'],
-        }}
-      >
-      <div>
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <div className="mt-4">
-                <DataTable
-                  columns={columns}
-                  data={filteredData}
-                  subHeader
-                  subHeaderComponent={
-                  <input
-                      type="text"
-                      placeholder="Search..."
-                      className="form-control"
-                      value={searchText}
-                      onChange={handleSearch}
-                  />
-                  }
-                  pagination
+    <div>
+    {loading ? (
+      <LoadingSpinner />
+    ) : (
+      <div className="mt-4" ref={nodeRef}>
+            <DataTable
+              columns={columns}
+              data={filteredData}
+              subHeader
+              subHeaderComponent={
+              <input
+                  type="text"
+                  placeholder="Search..."
+                  className="form-control"
+                  value={searchText}
+                  onChange={handleSearch}
               />
-          </div>
-        )}
+              }
+              pagination
+          />
       </div>
-    </CSSTransition>
-  </TransitionGroup>
-
-
-    
+    )}
+  </div>
 
   );
 }

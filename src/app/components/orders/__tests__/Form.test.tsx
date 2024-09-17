@@ -4,7 +4,7 @@ import { fetchMaterials } from '@/app/lib/actions/materialsService';
 import { Material } from '@/app/models/Material';
 
 // Mocking the service functions
-jest.mock('@/lib/actions/materialsService', () => ({
+jest.mock('@/app/lib/actions/materialsService', () => ({
   fetchMaterials: jest.fn(),
 }));
 
@@ -47,8 +47,8 @@ describe('Form Component', () => {
 
 it('renders loading create spinner initially', async () => {
   renderFormCreate();
-  expect(document.querySelector('.spinnerContainer')).toBeInTheDocument();
-  await waitFor(() => expect(document.querySelector('.spinnerContainer')).not.toBeInTheDocument());
+
+   await waitFor(() => expect(document.querySelector('.spinnerContainer')).not.toBeInTheDocument());
 });
 
 

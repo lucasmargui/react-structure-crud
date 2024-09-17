@@ -8,7 +8,7 @@ import { fetchMaterials } from '@/app/lib/actions/materialsService';
 import { Material } from '@/app/models/Material';
 
 // Mocking the fetchMaterials function
-jest.mock('@/lib/actions/materialsService', () => ({
+jest.mock('@/app/lib/actions/materialsService', () => ({
   fetchMaterials: jest.fn(),
 }));
 

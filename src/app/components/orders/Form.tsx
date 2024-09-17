@@ -112,24 +112,11 @@ const Form: React.FC<FormProps> = ({ id }) => {
       {notification && (
         <Notification message={notification.message} type={notification.type} onClose={() => setNotification(null)} />
       )}
-      <TransitionGroup>
-      <CSSTransition
-        key={loading ? 'loading' : 'component'}
-        timeout={300}
-        nodeRef={nodeRef}
-        unmountOnExit
-        classNames={{
-          enter: transitionstyles['fade-enter'],
-          enterActive: transitionstyles['fade-enter-active'],
-          exit: transitionstyles['fade-exit'],
-          exitActive: transitionstyles['fade-exit-active'],
-        }}
-      >
-          <div>
+      <div>
             {loading ? (
               <LoadingSpinner />
             ) : (
-              <div className="container py-5 h-100">
+              <div className="container py-5 h-100" ref={nodeRef}>
                 <form onSubmit={handleSubmit} aria-label="order-form">
                   <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col">
@@ -221,8 +208,6 @@ const Form: React.FC<FormProps> = ({ id }) => {
               </div>
             )}
           </div>
-        </CSSTransition>
-      </TransitionGroup>
     </section>
   );
 };
