@@ -1,7 +1,7 @@
 "use client"
 
 // React
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
 
 // Services
 import { fetchOrders } from '@/lib/actions/ordersService';
@@ -26,6 +26,7 @@ export default function Table() {
   const [filteredData, setFilteredData] = useState<OrderWithMaterial[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState<string>("");
+  const nodeRef = useRef(null);
 
 
   const columns = [
@@ -89,15 +90,17 @@ export default function Table() {
 
     <TransitionGroup>
     <CSSTransition
-      key={loading ? 'loading' : 'component'}
-      timeout={300}
-      classNames={{
-        enter: transitionstyles['fade-enter'],
-        enterActive: transitionstyles['fade-enter-active'],
-        exit: transitionstyles['fade-exit'],
-        exitActive: transitionstyles['fade-exit-active'],
-      }}
-    >
+        key={loading ? 'loading' : 'component'}
+        timeout={300}
+        nodeRef={nodeRef}
+        unmountOnExit
+        classNames={{
+          enter: transitionstyles['fade-enter'],
+          enterActive: transitionstyles['fade-enter-active'],
+          exit: transitionstyles['fade-exit'],
+          exitActive: transitionstyles['fade-exit-active'],
+        }}
+      >
       <div>
         {loading ? (
           <LoadingSpinner />

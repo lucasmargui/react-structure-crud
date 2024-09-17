@@ -38,10 +38,7 @@ export default function RootLayout({
             {children}
           </div>
           <Footer />
-          <Script
-            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
-            strategy="beforeInteractive" 
-          />
+          <Script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js" strategy="beforeInteractive" />
         </body>
       </html>
     </>

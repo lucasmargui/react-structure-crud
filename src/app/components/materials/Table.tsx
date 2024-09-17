@@ -1,7 +1,7 @@
 "use client";
 
 // React
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, useRef  } from 'react';
 
 // Services
 import { fetchMaterials } from '@/lib/actions/materialsService';
@@ -25,6 +25,7 @@ export default function Table() {
   const [filteredData, setFilteredData] = useState<Material[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState<string>("");
+  const nodeRef = useRef(null);
 
   const columns = [
     {
@@ -131,6 +132,8 @@ export default function Table() {
       <CSSTransition
         key={loading ? 'loading' : 'component'}
         timeout={300}
+        nodeRef={nodeRef}
+        unmountOnExit
         classNames={{
           enter: transitionstyles['fade-enter'],
           enterActive: transitionstyles['fade-enter-active'],
@@ -138,7 +141,7 @@ export default function Table() {
           exitActive: transitionstyles['fade-exit-active'],
         }}
       >
-        <div className="mt-4">
+        <div className="mt-4" ref={nodeRef}>
             
           {loading ? (
       

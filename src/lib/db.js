@@ -7,7 +7,6 @@ const config = {
   database: process.env.DB_NAME
 };
 
-// Função para obter uma conexão com o banco de dados
 export async function getDbConnection() {
   try {
     console.log('Attempting to connect with config:', JSON.stringify(config, null, 2));

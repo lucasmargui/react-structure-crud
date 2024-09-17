@@ -13,8 +13,6 @@ export async function GET() {
   }
 }
 
-
-
 // Função para inserir um novo material
 export async function POST(req) {
   try {

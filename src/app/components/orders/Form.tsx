@@ -1,7 +1,7 @@
 "use client";
 
 // React Hooks
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 // Models
 import { Order } from '@/models/Order';
@@ -33,6 +33,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [notification, setNotification] = useState<{ message: string; type: NotificationType } | null>(null);
+  const nodeRef = useRef(null);
 
   // Função para inicializar os dados da ordem ou criar nova ordem
   const initializeFormData = async () => {
@@ -85,10 +86,10 @@ const Form: React.FC<FormProps> = ({ id }) => {
 
     try {
       if (id) {
-        await updateOrder(order);
+        const orderResult = await updateOrder(order);
         setNotification({ message: 'Update success', type: 'info' });
       } else {
-        await createOrder(order);
+        const orderResult = await createOrder(order);
         setOrder({ material_id: 0, quantity: 0, order_date: '' });
         setNotification({ message: 'Created success', type: 'success' });
       }
@@ -111,22 +112,24 @@ const Form: React.FC<FormProps> = ({ id }) => {
         <Notification message={notification.message} type={notification.type} onClose={() => setNotification(null)} />
       )}
       <TransitionGroup>
-        <CSSTransition
-          key={loading ? 'loading' : 'component'}
-          timeout={300}
-          classNames={{
-            enter: transitionstyles['fade-enter'],
-            enterActive: transitionstyles['fade-enter-active'],
-            exit: transitionstyles['fade-exit'],
-            exitActive: transitionstyles['fade-exit-active'],
-          }}
-        >
+      <CSSTransition
+        key={loading ? 'loading' : 'component'}
+        timeout={300}
+        nodeRef={nodeRef}
+        unmountOnExit
+        classNames={{
+          enter: transitionstyles['fade-enter'],
+          enterActive: transitionstyles['fade-enter-active'],
+          exit: transitionstyles['fade-exit'],
+          exitActive: transitionstyles['fade-exit-active'],
+        }}
+      >
           <div>
             {loading ? (
               <LoadingSpinner />
             ) : (
               <div className="container py-5 h-100">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} aria-label="order-form">
                   <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col">
                       <div className="card card-registration my-4">
@@ -157,6 +160,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
                                     onChange={handleInputChange}
                                     required
                                     className={`form-control ${errors.material_id ? 'is-invalid' : ''}`}
+
                                   >
                                     <option value="">Select a material</option>
                                     {materials.map((material) => (
@@ -194,7 +198,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
                                     type="date"
                                     id="order_date"
                                     name="order_date"
-                                    value={order?.order_date ? formatDateForInput(order.order_date) : ''}
+                                    value={order?.order_date ? formatDateForInput(order.order_date) : formatDateForInput(new Date().toString())}
                                     onChange={handleInputChange}
                                     required
                                     className={`form-control ${errors.order_date ? 'is-invalid' : ''}`}
