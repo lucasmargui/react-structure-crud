@@ -1,14 +1,16 @@
 
+import Image from 'next/image';
+
 const Info = () => {
   return (
     <section>
       <div className="card mt-3" >
           <div className="row g-0">
             <div className="col-md-6">
-              <img
+              <Image
                 src="https://mdbootstrap.com/img/new/slides/031.jpg"
-                alt="Trendy Pants and Shoes"
-                className="img-fluid rounded-start"
+                className="card-img-top"
+                alt="Description of the image"
               />
               <a href="#!">
                 <div className="mask" style={{ backgroundColor: 'rgba(251, 251, 251, 0.10)' }}></div>

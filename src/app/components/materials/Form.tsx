@@ -4,14 +4,14 @@
 import { useState, useEffect, useRef } from 'react';
 
 // Models
-import { Material } from '@/models/Material';
+import { Material } from '@/app/models/Material';
 
 // Components
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import Notification from '@/app/components/Notification';
 
 // Services
-import { fetchMaterialById, createMaterial, updateMaterial } from '@/lib/actions/materialsService';
+import { fetchMaterialById, createMaterial, updateMaterial } from '@/app/lib/actions/materialsService';
 
 // Transitions
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -36,36 +36,35 @@ const Form: React.FC<FormProps> = ({ id }) => {
 
 
 
-  
-  const initializeFormData = async () => {
-    try {
-      if (id) {
-        const materialSearchById = await fetchMaterialById(id);
-        if (materialSearchById) setMaterial(materialSearchById); 
-      } else {
-        setMaterial({
-          name: '',
-          type: '',
-          description: '',
-          thickness: 0,
-          width: 0,
-          height: 0,
-          color: '',
-          manufacturer: '',
-          manufacturer_code: '',
-          price: 0,
-        }
-      );
-      }
-    } catch (error) {
-      setNotification({ message: 'Error loading data', type: 'error' });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
   useEffect(() => {
+
+    const initializeFormData = async () => {
+      try {
+        if (id) {
+          const materialSearchById = await fetchMaterialById(id);
+          if (materialSearchById) setMaterial(materialSearchById); 
+        } else {
+          setMaterial({
+            name: '',
+            type: '',
+            description: '',
+            thickness: 0,
+            width: 0,
+            height: 0,
+            color: '',
+            manufacturer: '',
+            manufacturer_code: '',
+            price: 0,
+          }
+        );
+        }
+      } catch (error) {
+        setNotification({ message: 'Error loading data', type: 'error' });
+      } finally {
+        setLoading(false);
+      }
+    };
+  
     initializeFormData();
   }, [id]);
 

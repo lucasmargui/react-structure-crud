@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getDbConnection } from '@/lib/db'; // Ajuste o caminho conforme necessário
+import { getDbConnection } from '@/app/lib/db'; // Ajuste o caminho conforme necessário
 
 // Função para consultar todos os materiais
 export async function GET() {

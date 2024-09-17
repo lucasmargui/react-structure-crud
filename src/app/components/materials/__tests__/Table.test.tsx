@@ -3,9 +3,9 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import Table from '../Table';
-import { fetchMaterials } from '@/lib/actions/materialsService';
+import { fetchMaterials } from '@/app/lib/actions/materialsService';
 
-import { Material } from '@/models/Material';
+import { Material } from '@/app/models/Material';
 
 // Mocking the fetchMaterials function
 jest.mock('@/lib/actions/materialsService', () => ({

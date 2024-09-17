@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Form from '@/app/components/orders/Form'; // Ajuste o caminho conforme necessário
-import { fetchMaterials } from '@/lib/actions/materialsService';
-import { Material } from '@/models/Material';
+import { fetchMaterials } from '@/app/lib/actions/materialsService';
+import { Material } from '@/app/models/Material';
 
 // Mocking the service functions
 jest.mock('@/lib/actions/materialsService', () => ({

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getDbConnection } from '@/lib/db'; // Ajuste o caminho conforme necessário
+import { getDbConnection } from '@/app/lib/db'; // Ajuste o caminho conforme necessário
 
 export async function GET(req, { params }) {
   try {

@@ -4,16 +4,16 @@
 import { useState, useEffect, useRef } from 'react';
 
 // Models
-import { Order } from '@/models/Order';
-import { Material } from '@/models/Material';
+import { Order } from '@/app/models/Order';
+import { Material } from '@/app/models/Material';
 
 // Components
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import Notification from '@/app/components/Notification';
 
 // Services
-import { fetchOrderById, createOrder, updateOrder } from '@/lib/actions/ordersService';
-import { fetchMaterials } from '@/lib/actions/materialsService';
+import { fetchOrderById, createOrder, updateOrder } from '@/app/lib/actions/ordersService';
+import { fetchMaterials } from '@/app/lib/actions/materialsService';
 
 // Transitions
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -35,6 +35,10 @@ const Form: React.FC<FormProps> = ({ id }) => {
   const [notification, setNotification] = useState<{ message: string; type: NotificationType } | null>(null);
   const nodeRef = useRef(null);
 
+
+  // Hook useEffect para carregar os dados
+  useEffect(() => {
+
   // Função para inicializar os dados da ordem ou criar nova ordem
   const initializeFormData = async () => {
     try {
@@ -54,8 +58,6 @@ const Form: React.FC<FormProps> = ({ id }) => {
     }
   };
 
-  // Hook useEffect para carregar os dados
-  useEffect(() => {
     initializeFormData();
   }, [id]);
 

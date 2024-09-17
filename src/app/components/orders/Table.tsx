@@ -4,7 +4,7 @@
 import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
 
 // Services
-import { fetchOrders } from '@/lib/actions/ordersService';
+import { fetchOrders } from '@/app/lib/actions/ordersService';
 
 // Components
 import LoadingSpinner from '@/app/components/LoadingSpinner';
@@ -17,7 +17,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import transitionstyles from '@/app/components/Transition.module.css';
 
 // Models
-import { OrderWithMaterial } from '@/models/Order';
+import { OrderWithMaterial } from '@/app/models/Order';
 
 
 export default function Table() {

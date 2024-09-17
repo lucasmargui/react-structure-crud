@@ -7,10 +7,10 @@ import { render, screen, waitFor, fireEvent, act } from '@testing-library/react'
 import Table from '../Table';
 
 // Services
-import { fetchOrders } from '@/lib/actions/ordersService';
+import { fetchOrders } from '@/app/lib/actions/ordersService';
 
 // Models
-import { OrderWithMaterial } from '@/models/Order';
+import { OrderWithMaterial } from '@/app/models/Order';
 
 
 // Mocking the fetchMaterials function

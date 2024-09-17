@@ -1,5 +1,5 @@
 
-@import url('../static/css/mdb.min.css');
+@import url('static/css/mdb.min.css');
 
 * {
   box-sizing: border-box;

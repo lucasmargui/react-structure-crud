@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Image from 'next/image';
 
 interface CardProps {
     imageSrc: string;
@@ -15,10 +15,10 @@ interface CardProps {
 
     <div className="col-md-2"> 
       <div className="card h-100">
-        <img
+      <Image
           src={imageSrc}
           className="card-img-top"
-       
+          alt="Description of the image"
         />
         <div className="card-body">
           <h5 className="card-title">{title}</h5>

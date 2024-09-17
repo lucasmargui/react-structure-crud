@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { deleteMaterial  } from '@/lib/actions/materialsService';
+import { deleteMaterial  } from '@/app/lib/actions/materialsService';
 
 interface DeleteButtonProps {
   materialId: number | undefined; // Defina o tipo adequado para `materialId`, por exemplo, number ou string

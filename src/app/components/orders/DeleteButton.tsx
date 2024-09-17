@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { deleteOrder  } from '@/lib/actions/ordersService';
+import { deleteOrder  } from '@/app/lib/actions/ordersService';
 
 interface DeleteButtonProps {
   orderId: number | undefined; // Defina o tipo adequado para `orderId`, por exemplo, number ou string
