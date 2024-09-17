@@ -19,6 +19,8 @@ interface CardProps {
           src={imageSrc}
           className="card-img-top"
           alt="Description of the image"
+          width={400} // Replace with actual width
+          height={300} // Replace with actual height
         />
         <div className="card-body">
           <h5 className="card-title">{title}</h5>
