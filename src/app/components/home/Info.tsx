@@ -11,6 +11,8 @@ const Info = () => {
                 src="https://mdbootstrap.com/img/new/slides/031.jpg"
                 className="card-img-top"
                 alt="Description of the image"
+                width={1200} // Replace with actual width
+                height={600} // Replace with actual height
               />
               <a href="#!">
                 <div className="mask" style={{ backgroundColor: 'rgba(251, 251, 251, 0.10)' }}></div>
