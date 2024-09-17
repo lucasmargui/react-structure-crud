@@ -1,7 +1,7 @@
 "use client"
 
 // React Hooks
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 // Models
 import { Material } from '@/models/Material';
@@ -32,6 +32,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [notification, setNotification] = useState<{ message: string; type: NotificationType } | null>(null);
+  const nodeRef = useRef(null);
 
 
 
@@ -144,6 +145,8 @@ const validateForm = () => {
     <CSSTransition
       key={loading ? 'loading' : 'component'}
       timeout={300}
+      nodeRef={nodeRef}
+      unmountOnExit
       classNames={{
         enter: transitionstyles['fade-enter'],
         enterActive: transitionstyles['fade-enter-active'],
@@ -154,10 +157,10 @@ const validateForm = () => {
       <div>
         {loading ? 
 
-          <LoadingSpinner /> : 
+           ( <LoadingSpinner /> ) : 
         
-          <div className="container py-5 h-100">
-          <form onSubmit={handleSubmit}>
+         ( <div className="container py-5 h-100">
+          <form onSubmit={handleSubmit}  aria-label="material-form" >
             <div className="row d-flex justify-content-center align-items-center h-100">
               <div className="col">
                 <div className="card card-registration my-4">
@@ -343,6 +346,7 @@ const validateForm = () => {
             </div>
             </form>
           </div>
+         )
         }
       </div>
     </CSSTransition>

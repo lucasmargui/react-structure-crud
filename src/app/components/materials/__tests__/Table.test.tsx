@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
-import Table from './Table';
+import Table from '../Table';
 import { fetchMaterials } from '@/lib/actions/materialsService';
 
 import { Material } from '@/models/Material';

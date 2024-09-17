@@ -64,7 +64,6 @@ const Form: React.FC<FormProps> = ({ id }) => {
     const formErrors: Record<string, string> = {};
     if (!order?.quantity) formErrors.quantity = 'Quantity is required';
     if (!order?.material_id) formErrors.material_id = 'Material is required';
-    if (!order?.order_date) formErrors.order_date = 'Date is required';
 
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
@@ -86,10 +85,10 @@ const Form: React.FC<FormProps> = ({ id }) => {
 
     try {
       if (id) {
-        const orderResult = await updateOrder(order);
+        await updateOrder(order);
         setNotification({ message: 'Update success', type: 'info' });
       } else {
-        const orderResult = await createOrder(order);
+        await createOrder(order);
         setOrder({ material_id: 0, quantity: 0, order_date: '' });
         setNotification({ message: 'Created success', type: 'success' });
       }
@@ -158,7 +157,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
                                     name="material_id"
                                     value={order?.material_id}
                                     onChange={handleInputChange}
-                                    required
+                                    
                                     className={`form-control ${errors.material_id ? 'is-invalid' : ''}`}
 
                                   >
@@ -182,7 +181,6 @@ const Form: React.FC<FormProps> = ({ id }) => {
                                     name="quantity"
                                     value={order?.quantity}
                                     onChange={handleInputChange}
-                                    required
                                     className={`form-control ${errors.quantity ? 'is-invalid' : ''}`}
                                   />
                                   {errors.quantity && <div className="text-danger">{errors.quantity}</div>}
@@ -200,7 +198,6 @@ const Form: React.FC<FormProps> = ({ id }) => {
                                     name="order_date"
                                     value={order?.order_date ? formatDateForInput(order.order_date) : formatDateForInput(new Date().toString())}
                                     onChange={handleInputChange}
-                                    required
                                     className={`form-control ${errors.order_date ? 'is-invalid' : ''}`}
                                   />
                                   {errors.order_date && <div className="text-danger">{errors.order_date}</div>}
