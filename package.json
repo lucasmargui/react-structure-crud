@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "npx jest --watchAll --verbose",
+    "test": "npx jest --verbose",
     "test:ci": "npx jest --ci"
   },
   "dependencies": {
