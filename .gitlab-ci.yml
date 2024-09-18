@@ -1,5 +1,11 @@
+variables:
+    IMAGE_NAME: lucasmargui/react-structure-crud
+    IMAGE_TAG: react-app-1.0
+
+
 stages:
     - test
+    - build
 
 run_tests:
     stage: test
@@ -8,3 +14,16 @@ run_tests:
         - apk update && apk add make
     script:
         - make test
+
+build_image:
+    stage: build
+    image: docker:27.2.1-cli
+    services: 
+        - docker:27.2.1-dind
+    variables:
+        DOCKER_TLS_CERTDIR: "/certs"
+    before_script:
+        - docker login -u $DOCKER_USER -p $DOCKER_PASS
+    script:
+        - docker build --build-arg srcDir=src -t $IMAGE_NAME:$IMAGE_TAG -f build/Dockerfile .
+        - docker push $IMAGE_NAME:$IMAGE_TAG
