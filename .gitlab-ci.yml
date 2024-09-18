@@ -5,6 +5,6 @@ run_tests:
     stage: test
     image: node:18-alpine
     before_script:
-        - apt-get update && apt-get install make
+        - apk update && apk add make
     script:
         - make test
