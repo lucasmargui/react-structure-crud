@@ -247,6 +247,116 @@ CSS Modules: Style each component with its own CSS file, scoped to the component
 
 </details>
 
+
+# Test
+
+## Creating Tests in the Project
+
+In this section, we outline the process for creating and running tests within the React JS project. Testing is crucial for ensuring that components and functionality work as intended, helping to catch issues before deployment.
+
+- **Setup Testing Environment:** Ensure that Jest and any necessary testing libraries (e.g., React Testing Library) are installed and configured.
+- **Writing Tests:** Write test cases for your React components and functions. Use Jest’s testing functions along with React Testing Library’s utilities to test components in isolation and in combination.
+- **Running Tests:** Regularly execute tests to verify that all components and functionality are working correctly.
+- **Reviewing Results:** Analyze the test results to identify and fix any issues that arise.
+
+![image](https://github.com/user-attachments/assets/a29ae417-99ec-44e3-8e48-435bca16c5c9)
+
+
+## Component Test: FORM
+
+### Loading State
+
+![image](https://github.com/user-attachments/assets/0b6a2ef7-ab52-47a1-99bd-bd8feb68e2af)
+
+- **Purpose**: Verify that a loading spinner is displayed initially when creating a new item.
+- **Description**: This test checks if the component shows a loading spinner at the start of the creation process and ensures that the spinner is no longer present after loading.
+
+### Initial Rendering of the Form
+
+![image](https://github.com/user-attachments/assets/fbd080f4-2af6-45c2-8e8b-f0e9810167e9)
+
+- **Purpose**: Ensure that all expected fields and buttons are present when rendering the creation form.
+- **Description**: Confirms the presence of input fields and the create button (`Create`) in the form.
+
+### Validation of Required Fields
+
+![image](https://github.com/user-attachments/assets/23a8203e-d792-4aff-84c0-dd87bb391c37)
+
+
+- **Purpose**: Ensure that error messages are displayed when required fields are missing.
+- **Description**: Simulates form submission without filling in required fields and verifies that the correct error messages are shown.
+
+### User Interaction
+
+![image](https://github.com/user-attachments/assets/edb25e1c-c1aa-4747-a752-3c6ac4c9dd56)
+
+- **Purpose**: Test if form fields can be interacted with and if values are correctly updated.
+- **Description**: Simulates changing values in various input fields and checks if the updated values are correctly reflected.
+
+
+### Submit State
+
+![image](https://github.com/user-attachments/assets/823902e9-f3f1-41ff-a106-f397e7dfd3c9)
+
+- **Purpose**: Verify the form's behavior when submitted with filled values.
+- **Description**: Simulates filling out the form fields and submitting the form, then checks if a success message (`Created success`) is displayed after submission.
+
+
+## Component Test: Table
+
+### Data Fetching and Rendering
+
+![image](https://github.com/user-attachments/assets/5b0e4215-71b4-453c-be67-4d6243d772ab)
+
+- **Purpose**: Verify that data is fetched and rendered correctly.
+- **Description**: This test mocks the data fetching function to return predefined data (`mockData`) and checks if the data is displayed correctly in the table.
+
+### Loading Spinner
+
+![image](https://github.com/user-attachments/assets/9517fdb7-f04b-4d00-a292-f4382be878c8)
+
+- **Purpose**: Ensure that a loading spinner is displayed while data is being fetched.
+- **Description**: This test mocks the data fetching function and verifies that a loading spinner is shown while data is being fetched and that it disappears once the data has been loaded.
+
+### Data Filtering
+
+![image](https://github.com/user-attachments/assets/827913ab-8497-41a0-bad7-bcee086c3aa0)
+
+- **Purpose**: Test if data is filtered correctly based on the search input.
+- **Description**: This test mocks the data fetching function to return predefined data (`mockData`). It then simulates a user typing a search term and verifies that the table displays only the filtered results.
+
+
+## Create MakeFile
+
+A Makefile can be used to automate tasks such as running tests. This is useful for streamlining development workflows and ensuring consistency.
+
+**Make test will run the commands `npm install` and `npm test`:**
+
+- `make test` installs dependencies with `npm install` and then runs tests using `npm test`.
+
+
+**`npm test` will consult package.json to determine what the test command does:**
+
+- `npm test` checks package.json to find and execute the `test` script defined there.
+
+
+**The `test` command runs `npx jest --verbose` without watchAll mode:**
+
+- The test script runs `npx jest --verbose` without file monitoring for automatic test re-runs.
+
+
+## Create Dockerfile
+
+# CI/CD
+
+## Push to GitLab
+
+## Create Pipeline
+
+## Create Job: run_tests
+
+## Create Job: image
+
 ![image](https://github.com/user-attachments/assets/7a94149b-3f9d-4e23-aa90-976bdbbb9416)
 
 ![image](https://github.com/user-attachments/assets/fc0ad017-83af-42f6-ab6a-a0e17e1b8618)
