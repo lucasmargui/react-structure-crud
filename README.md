@@ -250,9 +250,12 @@ CSS Modules: Style each component with its own CSS file, scoped to the component
 
 # Test
 
-## Creating Tests in the Project
-
 In this section, we outline the process for creating and running tests within the React JS project. Testing is crucial for ensuring that components and functionality work as intended, helping to catch issues before deployment.
+
+<details>
+<summary>Click to show details about </summary>
+
+## Creating Tests in the Project
 
 - **Setup Testing Environment:** Ensure that Jest and any necessary testing libraries (e.g., React Testing Library) are installed and configured.
 - **Writing Tests:** Write test cases for your React components and functions. Use Jest’s testing functions along with React Testing Library’s utilities to test components in isolation and in combination.
@@ -344,18 +347,135 @@ A Makefile can be used to automate tasks such as running tests. This is useful f
 
 - The test script runs `npx jest --verbose` without file monitoring for automatic test re-runs.
 
+</details>
 
-## Create Dockerfile
+# Create Dockerfile
+
+A Dockerfile is a script that contains a set of instructions to build a Docker image. It defines the base image, dependencies, environment variables, and commands needed to assemble the environment and run an application. By using a Dockerfile, you can automate the process of creating a consistent and portable image that can be deployed across different environment
+
+<details>
+<summary>Click to show details about </summary>
+
+![image](https://github.com/user-attachments/assets/fa204d7c-37e2-4d4c-a55d-e8451a4d9386)
+
+
+
+1. **FROM node:18-alpine AS build**  
+   Sets the base image to Node.js 18 Alpine for the build stage.
+
+2. **WORKDIR /app**  
+   Sets the working directory to `/app`.
+
+3. **COPY package*.json ./**  
+   Copies `package.json` and `package-lock.json` files to the working directory.
+
+4. **RUN npm ci**  
+   Installs production and development dependencies using `npm ci`.
+
+5. **COPY . .**  
+   Copies all project files to the working directory.
+
+6. **RUN npm run build**  
+   Runs the build script for the application.
+
+7. **FROM node:18-alpine AS runtime**  
+   Sets a new base image for the runtime stage.
+
+8. **WORKDIR /app**  
+   Sets the working directory to `/app` again.
+
+9. **COPY package*.json ./**  
+   Copies `package.json` and `package-lock.json` files to the working directory.
+
+10. **RUN npm ci --only=production**  
+    Installs only production dependencies using `npm ci`.
+
+11. **COPY --from=build /app/.next ./.next**  
+    Copies the build output from the `.next` folder from the build stage to the runtime.
+
+12. **COPY --from=build /app/public ./public**  
+    Copies the `public` folder from the build stage to the runtime.
+
+13. **EXPOSE 3000**  
+    Exposes port 3000 for external access.
+
+14. **USER node**  
+    Sets the user to `node` for running the container.
+
+15. **CMD ["npm", "start"]**  
+    Defines the command to start the application using `npm start`.
+
+
+</details>
+
 
 # CI/CD
 
+CI/CD (Continuous Integration/Continuous Deployment or Delivery) is a set of practices that automate the development, testing, and deployment of software.
+
+<details>
+<summary>Click to show details about </summary>
+
 ## Push to GitLab
+
+```
+git remote add origin https://gitlab.com/lucasmargui/react-structure-crud.git
+git branch -M main
+git push -uf origin main
+
+```
 
 ## Create Pipeline
 
+Create `gitlab-ci.yml` file, is a configuration file used by GitLab CI/CD to define the steps of your automated pipeline. It specifies stages such as build, test, and deploy, outlining the jobs to be executed in each stage
+
+![image](https://github.com/user-attachments/assets/1800bce3-b536-477a-9bcb-6c8d21fbc70e)
+
+
+The pipeline is composed of two stages:
+- **Test**: Runs tests using Node.js.
+- **Build**: Builds and pushes the Docker image to the registry.
+
+
+![image](https://github.com/user-attachments/assets/3fb6396d-7e85-4d02-8857-d7af749f994f)
+
+
 ## Create Job: run_tests
 
+The test stage runs the unit tests of the React application.
+
+![image](https://github.com/user-attachments/assets/ac2615c5-5533-4896-8abf-26f433871418)
+
+#### Configuration
+
+- **Image**: `node:18-alpine`
+- **Commands**:
+    - Updates the Alpine package manager.
+    - Installs `make`.
+    - Runs tests using `make test`.
+
 ## Create Job: image
+
+The build stage is responsible for creating a Docker image of the React application and pushing it to a Docker registry.
+
+![image](https://github.com/user-attachments/assets/cc346d6f-484e-427e-aa5f-a80ee4b3529e)
+
+
+#### Configuration
+
+- **Image**: `docker:27.2.1-cli` - Docker CLI image used for building and pushing Docker images.
+- **Services**: 
+  - `docker:27.2.1-dind` - Docker-in-Docker service required for building Docker images.
+- **Variables**:
+  - `DOCKER_TLS_CERTDIR`: `/certs` - Directory for storing Docker TLS certificates.
+
+#### Commands
+
+1. **Login to Docker Registry**: Authenticate with Docker Hub using the provided credentials.
+2. **Build Docker Image**: Create the Docker image using the `Dockerfile` located in the root directory of the project.
+3. **Push Docker Image**: Upload the built image to Docker Hub with the specified name and tag.
+
+</details>
 
 ![image](https://github.com/user-attachments/assets/7a94149b-3f9d-4e23-aa90-976bdbbb9416)
 
