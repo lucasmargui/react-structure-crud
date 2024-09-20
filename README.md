@@ -247,6 +247,236 @@ CSS Modules: Style each component with its own CSS file, scoped to the component
 
 </details>
 
+
+# Test
+
+In this section, we outline the process for creating and running tests within the React JS project. Testing is crucial for ensuring that components and functionality work as intended, helping to catch issues before deployment.
+
+<details>
+<summary>Click to show details about </summary>
+
+## Creating Tests in the Project
+
+- **Setup Testing Environment:** Ensure that Jest and any necessary testing libraries (e.g., React Testing Library) are installed and configured.
+- **Writing Tests:** Write test cases for your React components and functions. Use Jest’s testing functions along with React Testing Library’s utilities to test components in isolation and in combination.
+- **Running Tests:** Regularly execute tests to verify that all components and functionality are working correctly.
+- **Reviewing Results:** Analyze the test results to identify and fix any issues that arise.
+
+![image](https://github.com/user-attachments/assets/a29ae417-99ec-44e3-8e48-435bca16c5c9)
+
+
+## Component Test: FORM
+
+### Loading State
+
+![image](https://github.com/user-attachments/assets/0b6a2ef7-ab52-47a1-99bd-bd8feb68e2af)
+
+- **Purpose**: Verify that a loading spinner is displayed initially when creating a new item.
+- **Description**: This test checks if the component shows a loading spinner at the start of the creation process and ensures that the spinner is no longer present after loading.
+
+### Initial Rendering of the Form
+
+![image](https://github.com/user-attachments/assets/fbd080f4-2af6-45c2-8e8b-f0e9810167e9)
+
+- **Purpose**: Ensure that all expected fields and buttons are present when rendering the creation form.
+- **Description**: Confirms the presence of input fields and the create button (`Create`) in the form.
+
+### Validation of Required Fields
+
+![image](https://github.com/user-attachments/assets/23a8203e-d792-4aff-84c0-dd87bb391c37)
+
+
+- **Purpose**: Ensure that error messages are displayed when required fields are missing.
+- **Description**: Simulates form submission without filling in required fields and verifies that the correct error messages are shown.
+
+### User Interaction
+
+![image](https://github.com/user-attachments/assets/edb25e1c-c1aa-4747-a752-3c6ac4c9dd56)
+
+- **Purpose**: Test if form fields can be interacted with and if values are correctly updated.
+- **Description**: Simulates changing values in various input fields and checks if the updated values are correctly reflected.
+
+
+### Submit State
+
+![image](https://github.com/user-attachments/assets/823902e9-f3f1-41ff-a106-f397e7dfd3c9)
+
+- **Purpose**: Verify the form's behavior when submitted with filled values.
+- **Description**: Simulates filling out the form fields and submitting the form, then checks if a success message (`Created success`) is displayed after submission.
+
+
+## Component Test: Table
+
+### Data Fetching and Rendering
+
+![image](https://github.com/user-attachments/assets/5b0e4215-71b4-453c-be67-4d6243d772ab)
+
+- **Purpose**: Verify that data is fetched and rendered correctly.
+- **Description**: This test mocks the data fetching function to return predefined data (`mockData`) and checks if the data is displayed correctly in the table.
+
+### Loading Spinner
+
+![image](https://github.com/user-attachments/assets/9517fdb7-f04b-4d00-a292-f4382be878c8)
+
+- **Purpose**: Ensure that a loading spinner is displayed while data is being fetched.
+- **Description**: This test mocks the data fetching function and verifies that a loading spinner is shown while data is being fetched and that it disappears once the data has been loaded.
+
+### Data Filtering
+
+![image](https://github.com/user-attachments/assets/827913ab-8497-41a0-bad7-bcee086c3aa0)
+
+- **Purpose**: Test if data is filtered correctly based on the search input.
+- **Description**: This test mocks the data fetching function to return predefined data (`mockData`). It then simulates a user typing a search term and verifies that the table displays only the filtered results.
+
+
+## Create MakeFile
+
+A Makefile can be used to automate tasks such as running tests. This is useful for streamlining development workflows and ensuring consistency.
+
+**Make test will run the commands `npm install` and `npm test`:**
+
+- `make test` installs dependencies with `npm install` and then runs tests using `npm test`.
+
+
+**`npm test` will consult package.json to determine what the test command does:**
+
+- `npm test` checks package.json to find and execute the `test` script defined there.
+
+
+**The `test` command runs `npx jest --verbose` without watchAll mode:**
+
+- The test script runs `npx jest --verbose` without file monitoring for automatic test re-runs.
+
+</details>
+
+# Create Dockerfile
+
+A Dockerfile is a script that contains a set of instructions to build a Docker image. It defines the base image, dependencies, environment variables, and commands needed to assemble the environment and run an application. By using a Dockerfile, you can automate the process of creating a consistent and portable image that can be deployed across different environment
+
+<details>
+<summary>Click to show details about </summary>
+
+![image](https://github.com/user-attachments/assets/fa204d7c-37e2-4d4c-a55d-e8451a4d9386)
+
+
+
+1. **FROM node:18-alpine AS build**  
+   Sets the base image to Node.js 18 Alpine for the build stage.
+
+2. **WORKDIR /app**  
+   Sets the working directory to `/app`.
+
+3. **COPY package*.json ./**  
+   Copies `package.json` and `package-lock.json` files to the working directory.
+
+4. **RUN npm ci**  
+   Installs production and development dependencies using `npm ci`.
+
+5. **COPY . .**  
+   Copies all project files to the working directory.
+
+6. **RUN npm run build**  
+   Runs the build script for the application.
+
+7. **FROM node:18-alpine AS runtime**  
+   Sets a new base image for the runtime stage.
+
+8. **WORKDIR /app**  
+   Sets the working directory to `/app` again.
+
+9. **COPY package*.json ./**  
+   Copies `package.json` and `package-lock.json` files to the working directory.
+
+10. **RUN npm ci --only=production**  
+    Installs only production dependencies using `npm ci`.
+
+11. **COPY --from=build /app/.next ./.next**  
+    Copies the build output from the `.next` folder from the build stage to the runtime.
+
+12. **COPY --from=build /app/public ./public**  
+    Copies the `public` folder from the build stage to the runtime.
+
+13. **EXPOSE 3000**  
+    Exposes port 3000 for external access.
+
+14. **USER node**  
+    Sets the user to `node` for running the container.
+
+15. **CMD ["npm", "start"]**  
+    Defines the command to start the application using `npm start`.
+
+
+</details>
+
+
+# CI/CD
+
+CI/CD (Continuous Integration/Continuous Deployment or Delivery) is a set of practices that automate the development, testing, and deployment of software.
+
+<details>
+<summary>Click to show details about </summary>
+
+## Push to GitLab
+
+```
+git remote add origin https://gitlab.com/lucasmargui/react-structure-crud.git
+git branch -M main
+git push -uf origin main
+
+```
+
+## Create Pipeline
+
+Create `gitlab-ci.yml` file, is a configuration file used by GitLab CI/CD to define the steps of your automated pipeline. It specifies stages such as build, test, and deploy, outlining the jobs to be executed in each stage
+
+![image](https://github.com/user-attachments/assets/1800bce3-b536-477a-9bcb-6c8d21fbc70e)
+
+
+The pipeline is composed of two stages:
+- **Test**: Runs tests using Node.js.
+- **Build**: Builds and pushes the Docker image to the registry.
+
+
+![image](https://github.com/user-attachments/assets/3fb6396d-7e85-4d02-8857-d7af749f994f)
+
+
+## Create Job: run_tests
+
+The test stage runs the unit tests of the React application.
+
+![image](https://github.com/user-attachments/assets/ac2615c5-5533-4896-8abf-26f433871418)
+
+#### Configuration
+
+- **Image**: `node:18-alpine`
+- **Commands**:
+    - Updates the Alpine package manager.
+    - Installs `make`.
+    - Runs tests using `make test`.
+
+## Create Job: image
+
+The build stage is responsible for creating a Docker image of the React application and pushing it to a Docker registry.
+
+![image](https://github.com/user-attachments/assets/cc346d6f-484e-427e-aa5f-a80ee4b3529e)
+
+
+#### Configuration
+
+- **Image**: `docker:27.2.1-cli` - Docker CLI image used for building and pushing Docker images.
+- **Services**: 
+  - `docker:27.2.1-dind` - Docker-in-Docker service required for building Docker images.
+- **Variables**:
+  - `DOCKER_TLS_CERTDIR`: `/certs` - Directory for storing Docker TLS certificates.
+
+#### Commands
+
+1. **Login to Docker Registry**: Authenticate with Docker Hub using the provided credentials.
+2. **Build Docker Image**: Create the Docker image using the `Dockerfile` located in the root directory of the project.
+3. **Push Docker Image**: Upload the built image to Docker Hub with the specified name and tag.
+
+</details>
+
 ![image](https://github.com/user-attachments/assets/7a94149b-3f9d-4e23-aa90-976bdbbb9416)
 
 ![image](https://github.com/user-attachments/assets/fc0ad017-83af-42f6-ab6a-a0e17e1b8618)
