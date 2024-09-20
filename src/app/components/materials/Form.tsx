@@ -13,11 +13,6 @@ import Notification from '@/app/components/Notification';
 // Services
 import { fetchMaterialById, createMaterial, updateMaterial } from '@/app/lib/actions/materialsService';
 
-// Transitions
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import transitionstyles from '@/app/components/Transition.module.css';
-
-
 
 type NotificationType = 'info' | 'success' | 'error';
 
